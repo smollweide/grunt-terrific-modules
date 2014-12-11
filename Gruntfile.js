@@ -17,7 +17,8 @@ module.exports = function (grunt) {
 			root: 'web/webroot/WEB-INF',
 			terrific: '<%=paths.root%>/terrific',
 			modules: '<%=paths.terrific%>/modules',
-			tags: '<%=paths.root%>/tags'
+			tags: '<%=paths.root%>/tags',
+			resource: 'resource'
 		},
 
 		jshint: {
@@ -58,33 +59,33 @@ module.exports = function (grunt) {
 			files: {
 				module: [
 					{
-						src: '<%=paths.modules%>',
-						dest: '/{module}',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/{module}',
 						template: '{module}.jsp'
 					},
 					{
-						src: '<%=paths.modules%>',
-						dest: '/{module}',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/{module}',
 						template: '{module}.readme.md'
 					},
 					{
-						src: '<%=paths.modules%>',
-						dest: '/{module}/js',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/{module}/js',
 						template: '{module}.js'
 					},
 					{
-						src: '<%=paths.modules%>',
-						dest: '/{module}/css',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/{module}/css',
 						template: '{module}.less'
 					},
 					{
-						src: '<%=paths.modules%>',
-						dest: '/{module}/i18n',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/{module}/i18n',
 						template: '{module}.properties'
 					},
 					{
-						src: '<%=paths.tags%>',
-						dest: '',
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.tags%>',
 						template: '{module}.tag'
 					}
 				]
