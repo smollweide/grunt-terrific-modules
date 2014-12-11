@@ -451,12 +451,17 @@ ModuleGenerator.prototype = {
 		this._console('log', '');
 		this._console('log', '');
 		this._console('log', '---------- error ----------');
-		this._console('log', 'generator-module: no arguments');
+		this._console('log', 'terrific-modules: no arguments');
 		this._console('log', '');
 		this._console('log', '---------- help -----------');
-		this._console('log', 'grunt module:moduleName');
-		this._console('log', 'or');
-		this._console('log', 'grunt module:moduleName:skinName');
+		this._console('log', 'add module');
+		this._console('log', 'grunt terrific_modules:moduleName:@authorName');
+		this._console('log', 'or add skin');
+		this._console('log', 'grunt terrific_modules:moduleName:@authorName:skinName');
+		this._console('log', 'or add template');
+		this._console('log', 'grunt terrific_modules:moduleName:@authorName:%templateName');
+		this._console('log', 'or add all');
+		this._console('log', 'grunt terrific_modules:moduleName:@authorName:skinName:%templateName');
 
 		return this;
 	},
