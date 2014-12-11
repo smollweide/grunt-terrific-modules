@@ -13,13 +13,9 @@ module.exports = function (grunt) {
 	// Please see the Grunt documentation for more information regarding task
 	// creation: http://gruntjs.com/creating-tasks
 
-	grunt.registerMultiTask('terrific_modules', 'A grunt module generator for terrific modules', function () {
+	grunt.registerTask('terrific_modules', 'A grunt module generator for terrific modules', function () {
 		// Merge task-specific and/or target-specific options with these defaults.
-		var consoleDir, consoleLog,
-			options = this.options({
-			punctuation: '.',
-			separator: ', '
-		});
+		var consoleDir, consoleLog;
 
 		consoleDir = function (value) {
 
@@ -37,11 +33,20 @@ module.exports = function (grunt) {
 			grunt.log.writeln(value);
 		};
 
-		consoleLog('this:');
-		consoleDir(this.files[0]);
+		//consoleLog('hallo');
+
+		//consoleLog('this:');
+		consoleDir(grunt.config.data['terrific_modules']);
+		//consoleDir(arguments);
+
+		/*new ModuleGenerator({
+			grunt: grunt,
+			args: arguments
+		});*/
+
 
 		// Iterate over all specified file groups.
-		this.files.forEach(function (f) {
+		/*this.files.forEach(function (f) {
 			// Concat specified files.
 			var src = f.src.filter(function (filepath) {
 				// Warn on and remove invalid source files (if nonull was set).
@@ -64,7 +69,7 @@ module.exports = function (grunt) {
 
 			// Print a success message.
 			grunt.log.writeln('File "' + f.dest + '" created.');
-		});
+		});*/
 
 
 
@@ -103,7 +108,7 @@ ModuleGenerator.prototype = {
 		self.options = options;
 		self.args = self.options.args;
 		self.config = self.options.grunt.config.data;
-		self.configMod = self.options.grunt.config.data.module;
+		self.configMod = self.options.grunt.config.data['terrific_modules'];
 
 		self.detectArgs();
 
@@ -145,6 +150,8 @@ ModuleGenerator.prototype = {
 			nameC: self._toCamelCase(name)
 		};
 
+		self._console('dir', data);
+
 		if (argLen <= 1) {
 			self.filterData(data);
 			return this;
@@ -175,7 +182,11 @@ ModuleGenerator.prototype = {
 			}
 		}
 
-		self.filterData(data);
+
+
+
+
+		//self.filterData(data);
 
 		return this;
 	},

@@ -12,6 +12,14 @@ module.exports = function (grunt) {
 
 	// Project configuration.
 	grunt.initConfig({
+
+		paths: {
+			root: 'web/webroot/WEB-INF',
+			terrific: '<%=paths.root%>/terrific',
+			modules: '<%=paths.terrific%>/modules',
+			tags: '<%=paths.root%>/tags'
+		},
+
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -47,63 +55,49 @@ module.exports = function (grunt) {
 					author: '{author}'
 				}
 			},
-			filesModule: [
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault',
-					template: 'tcdefault.jsp'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault',
-					template: 'tcdefault.readme.md'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault/js',
-					template: 'tcdefault.js'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault/css',
-					template: 'tcdefault.less'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault/i18n',
-					template: 'tcdefault.properties'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out_tag%>',
-					template: 'tcdefault.tag'
-				}
-			],
-			filesSkin: [
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault/js',
-					template: 'tcdefault.skin.skindefault.js'
-				},
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault/css',
-					template: 'tcdefault.skin.skindefault.less'
-				}
-			],
-			filesTemplate: [
-				{
-					src: '<%=app.paths.generator_resource%>',
-					dest: '<%=app.paths.generator_out%>/tcdefault',
-					template: 'tcdefault-templatedefault.jsp',
-					belongsTo: {
-						src: '<%=app.paths.generator_out_tag%>/tcdefault.tag',
-						placeholder: '<%-- outlet.template --%>',
-						template: '<%=app.paths.generator_resource%>/tcdefault.template.tag'
+			files: {
+				module: [
+					{
+						src: '<%=paths.modules%>',
+						dest: '/{module}',
+						template: '{module}.jsp'
+					},
+					{
+						src: '<%=paths.modules%>',
+						dest: '/{module}',
+						template: '{module}.readme.md'
+					},
+					{
+						src: '<%=paths.modules%>',
+						dest: '/{module}/js',
+						template: '{module}.js'
+					},
+					{
+						src: '<%=paths.modules%>',
+						dest: '/{module}/css',
+						template: '{module}.less'
+					},
+					{
+						src: '<%=paths.modules%>',
+						dest: '/{module}/i18n',
+						template: '{module}.properties'
+					},
+					{
+						src: '<%=paths.tags%>',
+						dest: '',
+						template: '{module}.tag'
 					}
-				}
-			]
+				]
+			}
 		},
+
+
+
+		/*
+
+
+
+		 */
 
 		// Unit tests.
 		nodeunit: {
