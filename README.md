@@ -119,17 +119,20 @@ This array defines all file objects which are needed for generation of a "module
 All files defined in this array need to exist in the resource directory.
 
 ## Release History
-0.1.0 general functionality
-0.1.1 outsourced logic to lib folder
-0.1.2 implement enrichWith functionality
+- 0.1.0 general functionality
+- 0.1.1 outsourced logic to lib folder
+- 0.1.2 implement enrichWith functionality
 
 
 ## Convention
 
 ### Terrific:
+- http://terrifically.org/
 - https://github.com/brunschgi/terrificjs
+- https://github.com/namics/terrific-micro
+- https://github.com/brunschgi/terrific-composer/
 
-### grunt task arguments:
+### Grunt task arguments:
 - module name
 	(grunt terrific_modules:example-module)
 - skin name
@@ -142,17 +145,14 @@ All files defined in this array need to exist in the resource directory.
 	(grunt terrific_modules)
 
 ### Recommended placeholder names:
-(can be changed but is not recommended because you have to change all resource file names and content)
+(can be changed but is not recommended because you have to change all resource file-names)
 
 - module lowercase: {module}
 - module camelcase: {Module}
-
 - skin lowercase: {skin}
 - skin camelcase: {Skin}
-
 - template lowercase: {template}
 - template camelcase: {Template}
-
 - author lowercase: {author}
 - author camelcase: {Author}
 
