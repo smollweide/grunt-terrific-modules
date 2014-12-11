@@ -26,86 +26,123 @@ In your project's Gruntfile, add a section named `terrific_modules` to the data 
 grunt.initConfig({
   terrific_modules: {
     options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
+    	placeholder: {
+    		module: {
+    			underscore: '{module}',
+    			camelCase: '{Module}'
+    		},
+    		skin: {
+    			underscore: '{skin}',
+    			camelCase: '{Skin}'
+    		},
+    		template: {
+    			underscore: '{template}',
+    			camelCase: '{Template}'
+    		},
+    		author: '{author}'
+    	},
+    	files: {
+    		module: [
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}',
+    				template: '{module}.jsp'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}',
+    				template: '{module}.readme.md'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}/js',
+    				template: '{module}.js'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}/css',
+    				template: '{module}.less'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}/i18n',
+    				template: '{module}.properties'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToTags',
+    				template: '{module}.tag'
+    			}
+    		],
+    		skin: [
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}/js',
+    				template: '{module}.skin.{skin}.js'
+    			},
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}/css',
+    				template: '{module}.skin.{skin}.less'
+    			}
+    		],
+    		template: [
+    			{
+    				src: 'pathToResourceFolder',
+    				dest: 'pathToModulesFolder/{module}',
+    				template: '{module}-{template}.jsp',
+    				enrichWith: {
+    					src: 'pathToTags/{module}.tag',
+    					// use UTF8 code for % (U+0025)
+    					placeholder: '<U+0025-- outlet.template --U+0025>',
+    					template: 'pathToResourceFolder/{module}.template.tag'
+    				}
+    			}
+    		]
+    	}
+    }
   },
 });
 ```
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.placeholder
+Type: `object`
 
-A string value that is used to do something with whatever.
+A object with all placeholders used throughout the templates
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.files
+Type: `array`
 
-A string value that is used to do something else with whatever else.
-
-### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  terrific_modules: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  terrific_modules: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+This array defines all file objects which are needed for generation of a "module", "skin" or "template".
+All files defined in this array need to exist in the resource directory.
 
 ## Release History
 0.1.0 general functionality
+0.1.1 outsourced logic to lib folder
+0.1.2 implement enrichWith functionality
 
 
+## Convention
 
+### Terrific:
+- https://github.com/brunschgi/terrificjs
 
-####### naming convention #######
+### grunt task arguments:
+- module name
+	(grunt terrific_modules:example-module)
+- skin name
+	(grunt terrific_modules:example-module:example-skin)
+- template name
+	(grunt terrific_modules:example-module:%example-template)
+- author
+	(grunt terrific_modules:example-module:@example-author)
+- help
+	(grunt terrific_modules)
 
-FILE NAMES:
-- module name lowercase (test-module)
-- skin name lowercase (test-module.test-skin)
-- template name lowercase (test-module-test-template)
--
-
-INPUT NAMES:
-- module name lowercase (grunt terrific_modules:test-module)
-- skin name lowercase (terrific_modules:test-module:test-skin)
-- template name lowercase (terrific_modules:%test-template)
-- author (terrific_modules:@authorname:%test-template)
-
-REPLACEMENT NAMES:
+### Recommended placeholder names:
+(can be changed but is not recommended because you have to change all resource file names and content)
 
 - module lowercase: {module}
 - module camelcase: {Module}
