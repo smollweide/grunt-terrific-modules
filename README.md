@@ -86,4 +86,52 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.0 general functionality
+
+
+
+
+####### naming convention #######
+
+FILE NAMES:
+- module name lowercase (test-module)
+- skin name lowercase (test-module.test-skin)
+- template name lowercase (test-module-test-template)
+-
+
+INPUT NAMES:
+- module name lowercase (grunt terrific_modules:test-module)
+- skin name lowercase (terrific_modules:test-module:test-skin)
+- template name lowercase (terrific_modules:%test-template)
+- author (terrific_modules:@authorname:%test-template)
+
+REPLACEMENT NAMES:
+
+- module lowercase: {module}
+- module camelcase: {Module}
+
+- skin lowercase: {skin}
+- skin camelcase: {Skin}
+
+- template lowercase: {template}
+- template camelcase: {Template}
+
+- author lowercase: {author}
+- author camelcase: {Author}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
