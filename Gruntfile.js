@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 			terrific: '<%=paths.root%>/terrific',
 			modules: '<%=paths.terrific%>/modules',
 			tags: '<%=paths.root%>/tags',
-			resource: 'resource'
+			resource: 'resource/module'
 		},
 
 		jshint: {
@@ -86,6 +86,18 @@ module.exports = function (grunt) {
 							src: '<%=paths.resource%>',
 							dest: '<%=paths.tags%>',
 							template: '{module}.tag'
+						}
+					],
+					skin: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/js',
+							template: '{module}.skin.{skin}.js'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/css',
+							template: '{module}.skin.{skin}.less'
 						}
 					]
 				}

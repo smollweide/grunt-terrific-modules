@@ -105,7 +105,12 @@ ModuleGenerator.prototype = {
 		self.options = options;
 		self.args = self.options.args;
 		self.config = self.options.grunt.config.data;
-		self.configMod = self.options.options;
+		//self.configMod = self.options.options;
+		self.taskPlaceholder = self.options.options.placeholder;
+		self.taskFiles = self.options.options.files;
+
+		//self._console('dir', self.taskFiles);
+		//self._console('dir', self.taskPlaceholder);
 
 		self.detectArgs();
 
@@ -223,8 +228,8 @@ ModuleGenerator.prototype = {
 	writeModule: function (module, author) {
 
 		var self = this,
-			placeholder = self.configMod.options.placeholder,
-			moduleFiles = self.configMod.files.module
+			placeholder = self.taskPlaceholder,
+			moduleFiles = self.taskFiles.module
 		;
 
 		if (typeof(moduleFiles) !== 'object') {
@@ -234,14 +239,11 @@ ModuleGenerator.prototype = {
 		self._console('log', 'write module: ' + module.nameU);
 		self._console('log', '-----------------------------');
 
-		self._getGruntConfig(moduleFiles[0].src)
+		self._for(moduleFiles, function () {
 
-		//self._console('log', self._getGruntConfig(moduleFiles[0].src));
-
-		/*self._for(moduleFiles, function () {
 			self.writeFile({
-				src: self._getGruntConfig(this.src),
-				dest: self._getGruntConfig(this.dest),
+				src: this.src,
+				dest: this.dest,
 				folder: this.folder,
 				name: module.nameU,
 				template: this.template,
@@ -257,7 +259,7 @@ ModuleGenerator.prototype = {
 					}
 				]
 			});
-		});*/
+		});
 
 		self._console('log', '-----------------------------');
 		self._console('log', '');
@@ -277,9 +279,9 @@ ModuleGenerator.prototype = {
 	writeSkin: function (module, skin, author) {
 
 		var self = this,
-			placeholder = self.configMod.options.placeholder,
-			skinFiles = self.configMod.filesSkin
-			;
+			placeholder = self.taskPlaceholder,
+			skinFiles = self.taskFiles.skin
+		;
 
 		if (typeof(skinFiles) !== 'object') {
 			return this;
@@ -336,8 +338,8 @@ ModuleGenerator.prototype = {
 	writeTemplate: function (module, template, author) {
 
 		var self = this,
-			placeholder = self.configMod.options.placeholder,
-			filesTemplate = self.configMod.filesTemplate
+			placeholder = self.taskPlaceholder,
+			filesTemplate = self.taskFiles.template
 			;
 
 		if (typeof(filesTemplate) !== 'object') {
@@ -393,7 +395,7 @@ ModuleGenerator.prototype = {
 	writeFile: function (options) {
 
 		var self = this,
-			placeholder = self.configMod.options.placeholder,
+			placeholder = self.taskPlaceholder,
 			grunt = self.options.grunt,
 			path = options.dest + '/' + options.template,
 			templatePath = options.src + '/' + options.template,
@@ -572,9 +574,18 @@ ModuleGenerator.prototype = {
 			pattern = /<%=([a-zA-Z0-9.-_]*)%>(.*)/,
 			result = pattern.exec(value),
 			resultSpl,
-			poi = self.config;
+			poi = self.config,
+			getLastPath = function (result) {
+				if (result.length > 1) {
+					return result[2];
+				}
 
-		if (result.length < 1) {
+				return '';
+			};
+
+		self._console('log', value);
+
+		/*if (result.length < 1) {
 			return value;
 		}
 
@@ -584,16 +595,16 @@ ModuleGenerator.prototype = {
 			poi = poi[this];
 		});
 
+		/*
 		if (poi.search(pattern) >= 0) {
-			return self._getGruntConfig(poi + result[2]);
+			return self._getGruntConfig(poi + getLastPath(result));
 		}
-
 
 		if (typeof(poi) !== 'string') {
-			return value + result[2];
+			return value + getLastPath(result);
 		}
 
-		return value.replace(pattern, poi + result[2]);
+		return value.replace(pattern, poi + getLastPath(result));*/
 	},
 
 	/**
