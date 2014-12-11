@@ -36,13 +36,13 @@ module.exports = function (grunt) {
 		//consoleLog('hallo');
 
 		//consoleLog('this:');
-		consoleDir(grunt.config.data['terrific_modules']);
+		//consoleDir(grunt.config.data['terrific_modules']);
 		//consoleDir(arguments);
 
-		/*new ModuleGenerator({
+		new ModuleGenerator({
 			grunt: grunt,
 			args: arguments
-		});*/
+		});
 
 
 		// Iterate over all specified file groups.
@@ -150,7 +150,7 @@ ModuleGenerator.prototype = {
 			nameC: self._toCamelCase(name)
 		};
 
-		self._console('dir', data);
+		//self._console('dir', data.module.nameU);
 
 		if (argLen <= 1) {
 			self.filterData(data);
@@ -182,11 +182,7 @@ ModuleGenerator.prototype = {
 			}
 		}
 
-
-
-
-
-		//self.filterData(data);
+		self.filterData(data);
 
 		return this;
 	},
@@ -231,8 +227,8 @@ ModuleGenerator.prototype = {
 
 		var self = this,
 			placeholder = self.configMod.options.placeholder,
-			moduleFiles = self.configMod.filesModule
-			;
+			moduleFiles = self.configMod.files.module
+		;
 
 		if (typeof(moduleFiles) !== 'object') {
 			return this;
@@ -241,7 +237,11 @@ ModuleGenerator.prototype = {
 		self._console('log', 'write module: ' + module.nameU);
 		self._console('log', '-----------------------------');
 
-		self._for(moduleFiles, function () {
+		self._getGruntConfig(moduleFiles[0].src)
+
+		//self._console('log', self._getGruntConfig(moduleFiles[0].src));
+
+		/*self._for(moduleFiles, function () {
 			self.writeFile({
 				src: self._getGruntConfig(this.src),
 				dest: self._getGruntConfig(this.dest),
@@ -260,7 +260,7 @@ ModuleGenerator.prototype = {
 					}
 				]
 			});
-		});
+		});*/
 
 		self._console('log', '-----------------------------');
 		self._console('log', '');
@@ -572,7 +572,7 @@ ModuleGenerator.prototype = {
 	_getGruntConfig: function (value) {
 
 		var self = this,
-			pattern = /<%=([a-zA-Z0-9.-_]*)%>/,
+			pattern = /<%=([a-zA-Z0-9.-_]*)%>(.*)/,
 			result = pattern.exec(value),
 			resultSpl,
 			poi = self.config;
@@ -587,11 +587,16 @@ ModuleGenerator.prototype = {
 			poi = poi[this];
 		});
 
-		if (typeof(poi) !== 'string') {
-			return value;
+		if (poi.search(pattern) >= 0) {
+			return self._getGruntConfig(poi + result[2]);
 		}
 
-		return value.replace(pattern, poi);
+
+		if (typeof(poi) !== 'string') {
+			return value + result[2];
+		}
+
+		return value.replace(pattern, poi + result[2]);
 	},
 
 	/**

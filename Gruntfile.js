@@ -41,16 +41,16 @@ module.exports = function (grunt) {
 			options: {
 				placeholder: {
 					module: {
-						underscore: 'tcdefault',
-						camelCase: 'Tcdefault'
+						underscore: '{module}',
+						camelCase: '{Module}'
 					},
 					skin: {
-						underscore: 'skindefault',
-						camelCase: 'Skindefault'
+						underscore: '{skin}',
+						camelCase: '{Skin}'
 					},
 					template: {
-						underscore: 'templatedefault',
-						camelCase: 'Templatedefault'
+						underscore: '{template}',
+						camelCase: '{Template}'
 					},
 					author: '{author}'
 				}
