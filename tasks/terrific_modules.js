@@ -29,20 +29,16 @@ module.exports = function (grunt) {
 
 		};
 
+		var options = this.options({});
+
 		consoleLog = function (value) {
 			grunt.log.writeln(value);
 		};
 
-		//consoleLog('hallo');
-
-		//consoleLog('this:');
-		//consoleDir(grunt.config.data['terrific_modules']);
-		//consoleDir(arguments);
-
 		new ModuleGenerator({
 			grunt: grunt,
 			args: arguments,
-			options: this.options
+			options: options
 		});
 
 

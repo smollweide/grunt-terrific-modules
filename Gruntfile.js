@@ -54,41 +54,41 @@ module.exports = function (grunt) {
 						camelCase: '{Template}'
 					},
 					author: '{author}'
+				},
+				files: {
+					module: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}.jsp'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}.readme.md'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/js',
+							template: '{module}.js'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/css',
+							template: '{module}.less'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/i18n',
+							template: '{module}.properties'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.tags%>',
+							template: '{module}.tag'
+						}
+					]
 				}
-			},
-			files: {
-				module: [
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.modules%>/{module}',
-						template: '{module}.jsp'
-					},
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.modules%>/{module}',
-						template: '{module}.readme.md'
-					},
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.modules%>/{module}/js',
-						template: '{module}.js'
-					},
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.modules%>/{module}/css',
-						template: '{module}.less'
-					},
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.modules%>/{module}/i18n',
-						template: '{module}.properties'
-					},
-					{
-						src: '<%=paths.resource%>',
-						dest: '<%=paths.tags%>',
-						template: '{module}.tag'
-					}
-				]
 			}
 		},
 
