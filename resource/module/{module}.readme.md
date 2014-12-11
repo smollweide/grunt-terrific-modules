@@ -1,4 +1,4 @@
-Tcdefault - Terrific Module Documentation
+{Module} - Terrific Module Documentation
 ------------------------------------------------------------------------------------------------------------------------
 
 ## Summary

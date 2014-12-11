@@ -6,10 +6,10 @@
 	 *
 	 * @author {author}
 	 * @namespace Tc.Module
-	 * @class Tcdefault
+	 * @class {Module}
 	 * @extends Tc.Module
 	 */
-	Tc.Module.Tcdefault = Tc.Module.extend({
+	Tc.Module.{Module} = Tc.Module.extend({
 
 		/**
 		 * Initialize.
@@ -25,8 +25,13 @@
 			// call base constructor
 			this._super($ctx, sandbox, id);
 
-			// Do stuff here
-			//...
+			// subscribe to channel 1
+			//this.sandbox.subscribe(1, this);
+
+			// unsubscribe from channel 1
+			//this.sandbox.unsubscribe(1, this);
+
+			// set module variables
 		},
 
 		/**
@@ -37,13 +42,14 @@
 		 * @return void
 		 */
 		on: function(callback) {
-			var mod = this,
-				$ctx = this.$ctx
-			;
 
 			// set variables
+			var mod = this,
+				$ctx = mod.$ctx
+			;
 
 			// bind event handler
+			//$('.classname', $ctx).on('click', $.proxy(mod.$clickSomething, mod));
 
 			// init functions
 

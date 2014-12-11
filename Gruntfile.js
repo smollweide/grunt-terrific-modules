@@ -12,6 +12,15 @@ module.exports = function (grunt) {
 
 	// Project configuration.
 	grunt.initConfig({
+
+		paths: {
+			root: 'web/webroot/WEB-INF',
+			terrific: '<%=paths.root%>/terrific',
+			modules: '<%=paths.terrific%>/modules',
+			tags: '<%=paths.root%>/tags',
+			resource: 'resource/module'
+		},
+
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -30,23 +39,84 @@ module.exports = function (grunt) {
 
 		// Configuration to be run (and then tested).
 		terrific_modules: {
-			default_options: {
-				options: {
+			options: {
+				placeholder: {
+					module: {
+						underscore: '{module}',
+						camelCase: '{Module}'
+					},
+					skin: {
+						underscore: '{skin}',
+						camelCase: '{Skin}'
+					},
+					template: {
+						underscore: '{template}',
+						camelCase: '{Template}'
+					},
+					author: '{author}'
 				},
 				files: {
-					'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-				}
-			},
-			custom_options: {
-				options: {
-					separator: ': ',
-					punctuation: ' !!!'
-				},
-				files: {
-					'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+					module: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}.jsp'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}.readme.md'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/js',
+							template: '{module}.js'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/css',
+							template: '{module}.less'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/i18n',
+							template: '{module}.properties'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.tags%>',
+							template: '{module}.tag'
+						}
+					],
+					skin: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/js',
+							template: '{module}.skin.{skin}.js'
+						},
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}/css',
+							template: '{module}.skin.{skin}.less'
+						}
+					],
+					template: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}-{template}.jsp',
+							enrichWith: {
+								src: '<%=paths.tags%>/{module}.tag',
+								// use UTF8 code for % (U+0025)
+								placeholder: '<U+0025-- outlet.template --U+0025>',
+								template: '<%=paths.resource%>/{module}.template.tag'
+							}
+						}
+					]
 				}
 			}
 		},
+
 
 		// Unit tests.
 		nodeunit: {

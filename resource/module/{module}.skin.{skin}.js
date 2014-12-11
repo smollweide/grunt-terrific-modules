@@ -2,15 +2,15 @@
 	'use strict';
 
 	/**
-	 * Skindefault Skin implementation for the module Tcdefault.
+	 * {Skin} Skin implementation for the module {Module}.
 	 *
 	 * @author {author}
-	 * @namespace Tc.Module.Default
-	 * @class Skindefault
+	 * @namespace Tc.Module.{Module}
+	 * @class {Skin}
 	 * @extends Tc.Module
 	 * @constructor
 	 */
-	Tc.Module.Tcdefault.Skindefault = function (parent) {
+	Tc.Module.{Module}.{Skin} = function (parent) {
 
 		/**
 		 * override the appropriate methods from the decorated module (ie. this.get = function()).
@@ -21,10 +21,13 @@
 			parent.on(callback);
 
 			// set variables
+			var mod = this,
+				$ctx = mod.$ctx;
 
 			// set module variables
 
 			// bind event handler
+			//$('.classname', $ctx).on('click', $.proxy(mod.$clickSomething, mod));
 
 			// init functions
 		};

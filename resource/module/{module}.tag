@@ -12,16 +12,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- Specific module settings --%>
-<%@ tag description="Module: Tcdefault - Templates: default" %>
+<%@ tag description="Module: {Module} - Templates: default" %>
 
 <%-- Module template selection --%>
-<terrific:mod name="tcdefault" tag="${tag}" htmlClasses="${htmlClasses}" skin="${skin}" dataConnectors="${dataConnectors}" attributes="${attributes}">
+<terrific:mod name="{module}" tag="${tag}" htmlClasses="${htmlClasses}" skin="${skin}" dataConnectors="${dataConnectors}" attributes="${attributes}">
 	<c:choose>
 		<c:when test="false">
 		</c:when>
 		<%-- outlet.template --%>
 		<c:otherwise>
-			<%@ include file="/WEB-INF/terrific/40-modules/tcdefault/tcdefault.jsp" %>
+			<%@ include file="/WEB-INF/terrific/modules/{module}/{module}.jsp" %>
 		</c:otherwise>
 	</c:choose>
 </terrific:mod>
