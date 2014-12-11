@@ -292,8 +292,8 @@ ModuleGenerator.prototype = {
 
 		self._for(skinFiles, function () {
 			self.writeFile({
-				src: self._getGruntConfig(this.src),
-				dest: self._getGruntConfig(this.dest),
+				src: this.src,
+				dest: this.dest,
 				folder: this.folder,
 				name: module.nameU,
 				template: this.template,
