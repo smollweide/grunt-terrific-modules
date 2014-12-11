@@ -37,6 +37,7 @@ module.exports = function (grunt) {
 
 		//consoleLog('this:');
 		consoleDir(grunt.config.data['terrific_modules']);
+		
 		//consoleDir(arguments);
 
 		/*new ModuleGenerator({
