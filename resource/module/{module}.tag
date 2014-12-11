@@ -21,7 +21,7 @@
 		</c:when>
 		<%-- outlet.template --%>
 		<c:otherwise>
-			<%@ include file="/terrific/modules/{module}/{module}.jsp" %>
+			<%@ include file="/WEB-INF/terrific/modules/{module}/{module}.jsp" %>
 		</c:otherwise>
 	</c:choose>
 </terrific:mod>

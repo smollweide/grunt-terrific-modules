@@ -105,7 +105,7 @@ module.exports = function (grunt) {
 							src: '<%=paths.resource%>',
 							dest: '<%=paths.modules%>/{module}',
 							template: '{module}-{template}.jsp',
-							belongsTo: {
+							enrichWith: {
 								src: '<%=paths.tags%>/{module}.tag',
 								// use UTF8 code for % (U+0025)
 								placeholder: '<U+0025-- outlet.template --U+0025>',

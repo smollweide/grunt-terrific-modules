@@ -305,7 +305,7 @@ ModuleGenerator.prototype = {
 				name: module.nameU,
 				template: this.template,
 				author: author,
-				belongsTo: this.belongsTo,
+				enrichWith: this.enrichWith,
 				replacement: [
 					{
 						_that: placeholder.module.underscore,
@@ -378,20 +378,21 @@ ModuleGenerator.prototype = {
 		self._console('log', 'write file: ' + path);
 		grunt.file.write(path, content);
 
-		// write belongsTo
-		self.writeBelongsTo(options);
+		// write enrichWith
+		self.enrichWith(options);
 
 		return this;
 	},
 
 	/**
 	 *
-	 * @method writeBelongsTo
+	 * @method enrichWith
 	 *
+	 * @description enrich "enrichWith.src" with "enrichWith.template" at position "enrichWith.placeholder"
 	 * @param {object} options
 	 * @returns {*}
 	 */
-	writeBelongsTo: function (options) {
+	enrichWith: function (options) {
 
 		var self = this,
 			grunt = self.options.grunt,
@@ -401,17 +402,14 @@ ModuleGenerator.prototype = {
 			content,
 			pattern,
 			pattern2
-			;
+		;
 
-		self._console('log', 'options.belongsTo');
-		self._console('dir', options.belongsTo);
-
-		if (typeof(options.belongsTo) !== 'object') {
+		if (typeof(options.enrichWith) !== 'object') {
 			return this;
 		}
 
-		pathSrc = options.belongsTo.src;
-		pathTemplate = options.belongsTo.template;
+		pathSrc = options.enrichWith.src;
+		pathTemplate = options.enrichWith.template;
 		outlet = grunt.file.read(pathTemplate);
 
 		self._for(options.replacement, function () {
@@ -420,7 +418,7 @@ ModuleGenerator.prototype = {
 			outlet = outlet.replace(pattern, this._with);
 		});
 
-		pattern2 = new RegExp(options.belongsTo.placeholder.replace(/U\+0025/g, '%'), 'g');
+		pattern2 = new RegExp(options.enrichWith.placeholder.replace(/U\+0025/g, '%'), 'g');
 
 		if (!grunt.file.exists(pathSrc)) {
 			return this;
@@ -429,7 +427,7 @@ ModuleGenerator.prototype = {
 		content = grunt.file.read(pathSrc);
 
 		if (content.search(pattern2) <= 0) {
-			self._console('log', 'placeholder (' + options.belongsTo.placeholder + ') not found in file "' + pathSrc + '"');
+			self._console('log', 'placeholder (' + options.enrichWith.placeholder + ') not found in file "' + pathSrc + '"');
 			return this;
 		}
 
