@@ -41,7 +41,8 @@ module.exports = function (grunt) {
 
 		new ModuleGenerator({
 			grunt: grunt,
-			args: arguments
+			args: arguments,
+			options: this.options
 		});
 
 
@@ -108,7 +109,7 @@ ModuleGenerator.prototype = {
 		self.options = options;
 		self.args = self.options.args;
 		self.config = self.options.grunt.config.data;
-		self.configMod = self.options.grunt.config.data['terrific_modules'];
+		self.configMod = self.options.options;
 
 		self.detectArgs();
 
