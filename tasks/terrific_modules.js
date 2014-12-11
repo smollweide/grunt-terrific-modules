@@ -15,62 +15,11 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('terrific_modules', 'A grunt module generator for terrific modules', function () {
 		// Merge task-specific and/or target-specific options with these defaults.
-		var consoleDir, consoleLog;
-
-		consoleDir = function (value) {
-
-			var key;
-
-			for (key in value) {
-				if (value.hasOwnProperty(key)) {
-					grunt.log.writeln(key + ': ' + value[key]);
-				}
-			}
-
-		};
-
-		var options = this.options({});
-
-		consoleLog = function (value) {
-			grunt.log.writeln(value);
-		};
-
 		new ModuleGenerator({
 			grunt: grunt,
 			args: arguments,
-			options: options
+			options: this.options({})
 		});
-
-
-		// Iterate over all specified file groups.
-		/*this.files.forEach(function (f) {
-			// Concat specified files.
-			var src = f.src.filter(function (filepath) {
-				// Warn on and remove invalid source files (if nonull was set).
-				if (!grunt.file.exists(filepath)) {
-					grunt.log.warn('Source file "' + filepath + '" not found.');
-					return false;
-				} else {
-					return true;
-				}
-			}).map(function (filepath) {
-				// Read file source.
-				return grunt.file.read(filepath);
-			}).join(grunt.util.normalizelf(options.separator));
-
-			// Handle options.
-			src += options.punctuation;
-
-			// Write the destination file.
-			grunt.file.write(f.dest, src);
-
-			// Print a success message.
-			grunt.log.writeln('File "' + f.dest + '" created.');
-		});*/
-
-
-
-
 	});
 
 };
@@ -104,13 +53,8 @@ ModuleGenerator.prototype = {
 
 		self.options = options;
 		self.args = self.options.args;
-		self.config = self.options.grunt.config.data;
-		//self.configMod = self.options.options;
 		self.taskPlaceholder = self.options.options.placeholder;
 		self.taskFiles = self.options.options.files;
-
-		//self._console('dir', self.taskFiles);
-		//self._console('dir', self.taskPlaceholder);
 
 		self.detectArgs();
 
@@ -199,6 +143,8 @@ ModuleGenerator.prototype = {
 	filterData: function (data) {
 
 		var self = this;
+
+		self._console('log', 'filterData');
 
 		if (typeof(data.module) !== 'object') {
 			return this;
@@ -340,7 +286,9 @@ ModuleGenerator.prototype = {
 		var self = this,
 			placeholder = self.taskPlaceholder,
 			filesTemplate = self.taskFiles.template
-			;
+		;
+
+		self._console('log', 'writeTemplate');
 
 		if (typeof(filesTemplate) !== 'object') {
 			return this;
@@ -351,8 +299,8 @@ ModuleGenerator.prototype = {
 
 		self._for(filesTemplate, function () {
 			self.writeFile({
-				src: self._getGruntConfig(this.src),
-				dest: self._getGruntConfig(this.dest),
+				src: this.src,
+				dest: this.dest,
 				folder: this.folder,
 				name: module.nameU,
 				template: this.template,
@@ -455,12 +403,15 @@ ModuleGenerator.prototype = {
 			pattern2
 			;
 
+		self._console('log', 'options.belongsTo');
+		self._console('dir', options.belongsTo);
+
 		if (typeof(options.belongsTo) !== 'object') {
 			return this;
 		}
 
-		pathSrc = self._getGruntConfig(options.belongsTo.src);
-		pathTemplate = self._getGruntConfig(options.belongsTo.template);
+		pathSrc = options.belongsTo.src;
+		pathTemplate = options.belongsTo.template;
 		outlet = grunt.file.read(pathTemplate);
 
 		self._for(options.replacement, function () {
@@ -469,7 +420,7 @@ ModuleGenerator.prototype = {
 			outlet = outlet.replace(pattern, this._with);
 		});
 
-		pattern2 = new RegExp(options.belongsTo.placeholder, 'g');
+		pattern2 = new RegExp(options.belongsTo.placeholder.replace(/U\+0025/g, '%'), 'g');
 
 		if (!grunt.file.exists(pathSrc)) {
 			return this;
@@ -488,6 +439,7 @@ ModuleGenerator.prototype = {
 		self._console('log', 'change file : ' + pathSrc);
 
 		return this;
+
 	},
 
 	/**
@@ -558,53 +510,6 @@ ModuleGenerator.prototype = {
 			callback.call(array[i], i);
 		}
 
-	},
-
-	/**
-	 *
-	 * @method _getGruntConfig
-	 *
-	 * @param {string} value
-	 * @returns {*}
-	 * @private
-	 */
-	_getGruntConfig: function (value) {
-
-		var self = this,
-			pattern = /<%=([a-zA-Z0-9.-_]*)%>(.*)/,
-			result = pattern.exec(value),
-			resultSpl,
-			poi = self.config,
-			getLastPath = function (result) {
-				if (result.length > 1) {
-					return result[2];
-				}
-
-				return '';
-			};
-
-		self._console('log', value);
-
-		/*if (result.length < 1) {
-			return value;
-		}
-
-		resultSpl = result[1].split('.');
-
-		self._for(resultSpl, function () {
-			poi = poi[this];
-		});
-
-		/*
-		if (poi.search(pattern) >= 0) {
-			return self._getGruntConfig(poi + getLastPath(result));
-		}
-
-		if (typeof(poi) !== 'string') {
-			return value + getLastPath(result);
-		}
-
-		return value.replace(pattern, poi + getLastPath(result));*/
 	},
 
 	/**

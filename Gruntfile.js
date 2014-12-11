@@ -99,6 +99,19 @@ module.exports = function (grunt) {
 							dest: '<%=paths.modules%>/{module}/css',
 							template: '{module}.skin.{skin}.less'
 						}
+					],
+					template: [
+						{
+							src: '<%=paths.resource%>',
+							dest: '<%=paths.modules%>/{module}',
+							template: '{module}-{template}.jsp',
+							belongsTo: {
+								src: '<%=paths.tags%>/{module}.tag',
+								// use UTF8 code for % (U+0025)
+								placeholder: '<U+0025-- outlet.template --U+0025>',
+								template: '<%=paths.resource%>/{module}.template.tag'
+							}
+						}
 					]
 				}
 			}
