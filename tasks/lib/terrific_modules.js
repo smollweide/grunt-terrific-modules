@@ -10,14 +10,26 @@
 
 exports.init = function (grunt) {
 
-	var exports = {};
+	var exports = {},
+		moduleGenerator;
 
 	exports.run = function (options) {
-		new ModuleGenerator({
+		moduleGenerator = new ModuleGenerator({
 			grunt: grunt,
 			args: options.arguments,
 			options: options.options
 		});
+
+		moduleGenerator.detectArgs();
+		moduleGenerator.write();
+	};
+
+	exports.getPrototype = function () {
+		return ModuleGenerator.prototype;
+	};
+
+	exports.getClass = function () {
+		return ModuleGenerator;
 	};
 
 	return exports;
@@ -56,7 +68,7 @@ ModuleGenerator.prototype = {
 		self.taskPlaceholder = self.options.options.placeholder;
 		self.taskFiles = self.options.options.files;
 
-		self.detectArgs();
+		self._data = {};
 
 		return this;
 	},
@@ -73,10 +85,11 @@ ModuleGenerator.prototype = {
 			argLen = args.length,
 			patternTemplate = /^%/,
 			patternAuthor = /^@/,
-			data = {},
 			name,
 			i = 1
 			;
+
+		self._data = {};
 
 		if (argLen <= 0) {
 			self.errorArgs();
@@ -90,7 +103,7 @@ ModuleGenerator.prototype = {
 
 		name = args[0];
 
-		data.module = {
+		self._data.module = {
 			name: name,
 			nameU: self._toUnderscore(name),
 			nameC: self._toCamelCase(name)
@@ -99,19 +112,18 @@ ModuleGenerator.prototype = {
 		//self._console('dir', data.module.nameU);
 
 		if (argLen <= 1) {
-			self.filterData(data);
 			return this;
 		}
 
 		for (i; i < argLen; i += 1) {
 			var item = args[i];
 			if (item.search(patternAuthor) >= 0) {
-				data.author = item.replace(patternAuthor, '');
+				self._data.author = item.replace(patternAuthor, '');
 			} else if (item.search(patternTemplate) >= 0) {
 
 				name = item.replace(patternTemplate, '');
 
-				data.template = {
+				self._data.template = {
 					name: name,
 					nameU: self._toUnderscore(name),
 					nameC: self._toCamelCase(name)
@@ -120,7 +132,7 @@ ModuleGenerator.prototype = {
 
 				name = item;
 
-				data.skin = {
+				self._data.skin = {
 					name: name,
 					nameU: self._toUnderscore(name),
 					nameC: self._toCamelCase(name)
@@ -128,36 +140,31 @@ ModuleGenerator.prototype = {
 			}
 		}
 
-		self.filterData(data);
-
 		return this;
 	},
 
 	/**
 	 *
-	 * @method filterData
+	 * @method write
 	 *
-	 * @param {object} data
 	 * @returns {*}
 	 */
-	filterData: function (data) {
+	write: function () {
 
 		var self = this;
 
-		self._console('log', 'filterData');
-
-		if (typeof(data.module) !== 'object') {
+		if (typeof(self._data.module) !== 'object') {
 			return this;
 		}
 
-		self.writeModule(data.module, data.author);
+		self.writeModule(self._data.module, self._data.author);
 
-		if (typeof(data.skin) === 'object') {
-			self.writeSkin(data.module, data.skin, data.author);
+		if (typeof(self._data.skin) === 'object') {
+			self.writeSkin(self._data.module, self._data.skin, self._data.author);
 		}
 
-		if (typeof(data.template) === 'object') {
-			self.writeTemplate(data.module, data.template, data.author);
+		if (typeof(self._data.template) === 'object') {
+			self.writeTemplate(self._data.module, self._data.template, self._data.author);
 		}
 
 		return this;
@@ -524,6 +531,11 @@ ModuleGenerator.prototype = {
 	 * @private
 	 */
 	_toCamelCase: function (name) {
+
+		if (typeof(name) !== 'string') {
+			return name;
+		}
+
 		name = name.replace(/^[a-z]/, function () {
 			return arguments[0].toUpperCase();
 		});
@@ -541,6 +553,11 @@ ModuleGenerator.prototype = {
 	 * @private
 	 */
 	_toUnderscore: function (name) {
-		return name.replace(/[A-Z]/g, '-$&').toLowerCase();
+
+		if (typeof(name) !== 'string') {
+			return name;
+		}
+
+		return name.replace(/[A-Z]/g, '-$&').toLowerCase().replace(/^-/, '').replace(/--/g, '-');
 	}
 };
