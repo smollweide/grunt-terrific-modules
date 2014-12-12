@@ -127,6 +127,7 @@ All files defined in this array need to exist in the resource directory.
 - 0.1.1 outsourced logic to lib folder
 - 0.1.2 implement enrichWith functionality
 - 0.1.3 bugfixing
+- 0.1.4 important notice
 
 ## Convention
 
