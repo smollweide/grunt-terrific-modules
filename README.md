@@ -17,6 +17,10 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-terrific-modules');
 ```
 
+The Template Module folder needs to be copied from the
+[Github Repository](https://github.com/smollweide/grunt-terrific-modules/tree/master/resource) and placed at
+the folder location <pathToResourceFolder>
+
 ## The "terrific_modules" task
 
 ### Overview
