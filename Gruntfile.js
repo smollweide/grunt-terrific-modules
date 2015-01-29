@@ -113,7 +113,8 @@ module.exports = function (grunt) {
 							}
 						}
 					]
-				}
+				},
+				triggerFile: 'triggerfile'
 			}
 		},
 

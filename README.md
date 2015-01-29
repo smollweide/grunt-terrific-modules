@@ -29,82 +29,83 @@ In your project's Gruntfile, add a section named `terrific_modules` to the data 
 ```js
 grunt.initConfig({
   terrific_modules: {
-    options: {
-    	placeholder: {
-    		module: {
-    			underscore: '{module}',
-    			camelCase: '{Module}'
-    		},
-    		skin: {
-    			underscore: '{skin}',
-    			camelCase: '{Skin}'
-    		},
-    		template: {
-    			underscore: '{template}',
-    			camelCase: '{Template}'
-    		},
-    		author: '{author}'
-    	},
-    	files: {
-    		module: [
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}',
-    				template: '{module}.jsp'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}',
-    				template: '{module}.readme.md'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}/js',
-    				template: '{module}.js'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}/css',
-    				template: '{module}.less'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}/i18n',
-    				template: '{module}.properties'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToTags',
-    				template: '{module}.tag'
-    			}
-    		],
-    		skin: [
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}/js',
-    				template: '{module}.skin.{skin}.js'
-    			},
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}/css',
-    				template: '{module}.skin.{skin}.less'
-    			}
-    		],
-    		template: [
-    			{
-    				src: 'pathToResourceFolder',
-    				dest: 'pathToModulesFolder/{module}',
-    				template: '{module}-{template}.jsp',
-    				enrichWith: {
-    					src: 'pathToTags/{module}.tag',
-    					// use UTF8 code for % (U+0025)
-    					placeholder: '<U+0025-- outlet.template --U+0025>',
-    					template: 'pathToResourceFolder/{module}.template.tag'
-    				}
-    			}
-    		]
-    	}
-    }
+	  options: {
+		placeholder: {
+			module: {
+				underscore: '{module}',
+				camelCase: '{Module}'
+			},
+			skin: {
+				underscore: '{skin}',
+				camelCase: '{Skin}'
+			},
+			template: {
+				underscore: '{template}',
+				camelCase: '{Template}'
+			},
+			author: '{author}'
+		},
+		files: {
+			module: [
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}',
+					template: '{module}.jsp'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}',
+					template: '{module}.readme.md'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}/js',
+					template: '{module}.js'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}/css',
+					template: '{module}.less'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}/i18n',
+					template: '{module}.properties'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToTags',
+					template: '{module}.tag'
+				}
+			],
+			skin: [
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}/js',
+					template: '{module}.skin.{skin}.js'
+				},
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}/css',
+					template: '{module}.skin.{skin}.less'
+				}
+			],
+			template: [
+				{
+					src: 'pathToResourceFolder',
+					dest: 'pathToModulesFolder/{module}',
+					template: '{module}-{template}.jsp',
+					enrichWith: {
+						src: 'pathToTags/{module}.tag',
+						// use UTF8 code for % (U+0025)
+						placeholder: '<U+0025-- outlet.template --U+0025>',
+						template: 'pathToResourceFolder/{module}.template.tag'
+					}
+				}
+			]
+		},
+		triggerFile: 'triggerfile'
+	  }
   },
 });
 ```
@@ -128,6 +129,7 @@ All files defined in this array need to exist in the resource directory.
 - 0.1.2 implement enrichWith functionality
 - 0.1.3 bugfixing
 - 0.1.4 important notice
+- 0.1.5 add triggerFile
 
 ## Convention
 
@@ -138,6 +140,8 @@ All files defined in this array need to exist in the resource directory.
 - https://github.com/brunschgi/terrific-composer/
 
 ### Grunt task arguments:
+- help
+	(grunt terrific_modules)
 - module name
 	(grunt terrific_modules:example-module)
 - skin name
@@ -146,8 +150,7 @@ All files defined in this array need to exist in the resource directory.
 	(grunt terrific_modules:example-module:%example-template)
 - author
 	(grunt terrific_modules:example-module:@example-author)
-- help
-	(grunt terrific_modules)
+
 
 ### Recommended placeholder names:
 (can be changed but is not recommended because you have to change all resource file-names)
