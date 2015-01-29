@@ -67,6 +67,7 @@ ModuleGenerator.prototype = {
 		self.args = self.options.args;
 		self.taskPlaceholder = self.options.options.placeholder;
 		self.taskFiles = self.options.options.files;
+		self.triggerFile = self.options.options.triggerFile;
 
 		self._data = {};
 
@@ -165,6 +166,11 @@ ModuleGenerator.prototype = {
 
 		if (typeof(self._data.template) === 'object') {
 			self.writeTemplate(self._data.module, self._data.template, self._data.author);
+		}
+
+		if (typeof(self.triggerFile) === 'string') {
+			self.options.grunt.file.write(self.triggerFile, '');
+			self._console('log', 'write file: ' + self.triggerFile);
 		}
 
 		return this;
