@@ -68,11 +68,13 @@ ModuleGenerator.prototype = {
 		self.taskPlaceholder = self.options.options.placeholder;
 		self.taskFiles = self.options.options.files;
 		self.triggerFile = self.options.options.triggerFile;
+		self.complete = self.options.options.complete;
 
 		self._data = {};
 
 		return this;
 	},
+
 
 	/**
 	 *
@@ -170,7 +172,11 @@ ModuleGenerator.prototype = {
 
 		if (typeof(self.triggerFile) === 'string') {
 			self.options.grunt.file.write(self.triggerFile, '');
-			self._console('log', 'write file: ' + self.triggerFile);
+			self._console('log', 'write file: ' + new Date());
+		}
+
+		if (typeof(self.complete) === 'function') {
+			self.complete.call(self, self._data);
 		}
 
 		return this;

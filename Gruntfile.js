@@ -114,7 +114,10 @@ module.exports = function (grunt) {
 						}
 					]
 				},
-				triggerFile: 'triggerfile'
+				triggerFile: 'triggerfile',
+				complete: function (data) {
+
+				}
 			}
 		},
 

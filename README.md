@@ -104,7 +104,10 @@ grunt.initConfig({
 				}
 			]
 		},
-		triggerFile: 'triggerfile'
+		triggerFile: '<path>/triggerfile',
+		complete: function (data) {
+
+		}
 	  }
   },
 });
@@ -130,14 +133,16 @@ All files defined in this array need to exist in the resource directory.
 - 0.1.3 bugfixing
 - 0.1.4 important notice
 - 0.1.5 add triggerFile
+- 0.1.6 add complete function
 
 ## Convention
 
 ### Terrific:
 - http://terrifically.org/
 - https://github.com/brunschgi/terrificjs
+- https://github.com/brunschgi/terrific-composer
 - https://github.com/namics/terrific-micro
-- https://github.com/brunschgi/terrific-composer/
+- https://github.com/smollweide/terrific-micro-grunt
 
 ### Grunt task arguments:
 - help
