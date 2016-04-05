@@ -6,21 +6,22 @@
 		var result,
 			expected,
 			message,
-			TcModule = Tc.Module.{Module}.prototype;
+			TModule = T.Module.{Module}.prototype;
 
 		module('install', {
 			setup: function() {
-				TcModule = Tc.Module.{Module}.prototype;
-			}, teardown: function() {
+				TModule = T.Module.{Module}.prototype;
+			}, 
+			teardown: function() {
 				result = null;
 				expected = null;
 				message = null;
-				TcModule = null;
+				TModule = null;
 			}
 		});
 
 		// test 1
-		result  = TcModule.on(function () {});
+		result  = TModule.start(function () {});
 		expected = undefined;
 		message = '';
 		deepEqual(result, expected, message);

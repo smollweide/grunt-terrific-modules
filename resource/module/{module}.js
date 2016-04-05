@@ -1,73 +1,62 @@
-(function($) {
+(function ($) {
 	'use strict';
 
 	/**
 	 * Module implementation.
 	 *
 	 * @author {author}
-	 * @namespace Tc.Module
+	 * @namespace T.Module
 	 * @class {Module}
-	 * @extends Tc.Module
+	 * @extends T.Module
 	 */
-	Tc.Module.{Module} = Tc.Module.extend({
+	T.Module.{Module} = T.createModule({
 
 		/**
-		 * Initialize.
+		 * executed on application.start()
 		 *
-		 * @method init
+		 * @method start
 		 * @return {void}
 		 * @constructor
-		 * @param {jQuery} $ctx the jquery context
-		 * @param {Sandbox} sandbox the sandbox to get the resources from
-		 * @param {Number} id the unique module id
+		 * @param {Function} resolve the callback after module start
 		 */
-		init: function($ctx, sandbox, id) {
-			// call base constructor
-			this._super($ctx, sandbox, id);
+		start: function(resolve) {
 
-			// subscribe to channel 1
-			//this.sandbox.subscribe(1, this);
+			// bind ctx
+			this.$ctx = $(this._ctx);
 
-			// unsubscribe from channel 1
-			//this.sandbox.unsubscribe(1, this);
+			// subscribe to event sync
+			this._events.on('t.sync', this.sync.bind(this));
 
-			// set module variables
+			// subscribe to your events
+			// this._events.on('myEvent', this.onMyEvent.bind(this));
+
+			// add your code here..
+
+			resolve();
 		},
 
 		/**
-		 * Hook function to do all of your module stuff.
+		 * executed on application.stop()
 		 *
-		 * @method on
-		 * @param {Function} callback function
 		 * @return void
 		 */
-		on: function(callback) {
+		stop: function () {
 
-			// set variables
-			var mod = this,
-				$ctx = mod.$ctx
-			;
-
-			// bind event handler
-			//$('.classname', $ctx).on('click', $.proxy(mod.$clickSomething, mod));
-
-			// init functions
-
-			callback();
+			// Do stuff here or remove method
+			//...
 		},
 
-
 		/**
-		 * Hook function to trigger your events.
+		 * emitted when the start method of all modules has been run
 		 *
-		 * @method after
 		 * @return void
 		 */
-		after: function() {
-			// Do stuff here or remove after method
+		sync: function () {
+
+			// Do stuff here or remove method
 			//...
 		}
 
 	});
 
-})(Tc.$);
+})(jQuery);
