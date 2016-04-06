@@ -1,45 +1,58 @@
-(function($) {
+(function ($) {
 	'use strict';
 
 	/**
 	 * {Skin} Skin implementation for the module {Module}.
 	 *
 	 * @author {author}
-	 * @namespace Tc.Module.{Module}
+	 * @namespace T.Module.{Module}
 	 * @class {Skin}
-	 * @extends Tc.Module
+	 * @extends T.Module
 	 * @constructor
 	 */
-	Tc.Module.{Module}.{Skin} = function (parent) {
+	T.Module.{Module}.{Skin} = T.createDecorator({
 
 		/**
-		 * override the appropriate methods from the decorated module (ie. this.get = function()).
-		 * the former/original method may be called via parent.<method>()
+		 * executed on application.start()
+		 * extended (decorated) lifecycle method
+		 *
+		 * @method start
+		 * @return {void}
+		 * @constructor
+		 * @param {Function} resolve the callback after module start
+		 * @param {Function} reject
 		 */
-		this.on = function (callback) {
-			// calling parent method
-			parent.on(callback);
+		start : function (resolve, reject) {
 
-			// set variables
-			var mod = this,
-				$ctx = mod.$ctx;
+			this._parent.start(resolve, reject);
 
-			// set module variables
+			// add your code here
+			// ..
 
-			// bind event handler
-			//$('.classname', $ctx).on('click', $.proxy(mod.$clickSomething, mod));
+		},
 
-			// init functions
-		};
 
-		this.after = function () {
-			// calling parent method
-			parent.after();
+		/**
+		 * executed on application.stop()
+		 *
+		 * @return void
+		 */
+		stop: function() {
 
-			// Do stuff here
+			// Do stuff here or remove method
 			//...
-		};
+		},
 
-	};
+		/**
+		 * emitted when the start method of all modules has been run
+		 *
+		 * @return void
+		 */
+		sync: function () {
 
-})(Tc.$);
+			// Do stuff here or remove method
+			//...
+		}
+	});
+
+})(jQuery);
