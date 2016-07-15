@@ -2,6 +2,12 @@
 
 > A grunt module generator for terrific modules
 
+[![Build Status](https://img.shields.io/travis/smollweide/grunt-terrific-modules/master.svg)](https://travis-ci.org/smollweide/grunt-terrific-modules)
+[![Dependencies](https://img.shields.io/david/smollweide/grunt-terrific-modules/master.svg)](https://david-dm.org/smollweide/grunt-terrific-modules)
+[![npm](https://img.shields.io/npm/v/grunt-terrific-modules.svg)](https://www.npmjs.com/package/grunt-terrific-modules)
+[![Codestyle](https://img.shields.io/badge/codestyle-namics-green.svg)](https://github.com/namics/eslint-config-namics)
+
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 

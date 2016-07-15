@@ -1,7 +1,3 @@
-'use strict';
-
-var grunt = require('grunt');
-
 /*
  ======== A Handy Little Nodeunit Reference ========
  https://github.com/caolan/nodeunit
@@ -22,29 +18,44 @@ var grunt = require('grunt');
  test.ifError(value)
  */
 
-var _string = 'string',
-	_emptyString = '',
-	_undefined,
-	_null = null,
-	_function = function () {},
-	_object = {},
-	_array = [],
-	_number = 1,
-	_numberMinus = -10,
-	_integer = 12,
-	_integerMinus = -14,
-	_float = 1.2,
-	_floatMinus = -13.2,
-	alltypes = [
-		_string, _emptyString, _undefined, _null,
-		_function, _object, _array, _number,
-		_numberMinus, _integer, _integerMinus,
-		_float, _floatMinus
-	]
-;
 
+var grunt = require('grunt');
+var ModuleGenerator = require('../tasks/lib/terrific_modules.js').init(grunt);
+var _string = 'string';
+var _emptyString = '';
+var _undefined = undefined;
+var _null = null;
+var _function = function () {};
+var _object = {};
+var _array = [];
+var _number = 1;
+var _numberMinus = -10;
+var _integer = 12;
+var _integerMinus = -14;
+var _float = 1.2;
+var _floatMinus = -13.2;
+var allTypes = [
+	_string, _emptyString, _undefined, _null,
+	_function, _object, _array, _number,
+	_numberMinus, _integer, _integerMinus,
+	_float, _floatMinus
+];
+var getPrototype = function () {
+	return ModuleGenerator.getPrototype();
+};
 
+var getClass = function () {
+	return ModuleGenerator.getClass();
+};
 
+var _for = function (array, callback) {
+	var i = 0,
+		len = array.length;
+
+	for (i; i < len; i += 1) {
+		callback.call(array[i], i);
+	}
+};
 
 exports.terrific_modules = {
 	setUp: function (done) {
@@ -53,10 +64,9 @@ exports.terrific_modules = {
 	},
 	toCamelCase: function (test) {
 
-		var instance = getPrototype(),
-			actualArr = [],
-			expectedArr = []
-		;
+		var instance = getPrototype();
+		var actualArr = [];
+		var expectedArr = [];
 
 		actualArr.push('test');
 		expectedArr.push('Test');
@@ -67,10 +77,10 @@ exports.terrific_modules = {
 		actualArr.push('?dfdsfs');
 		expectedArr.push('?dfdsfs');
 
-		_for(alltypes, function (i) {
-			if (alltypes[i] !== 'string') {
-				actualArr.push(alltypes[i]);
-				expectedArr.push(alltypes[i]);
+		_for(allTypes, function (i) {
+			if (allTypes[i] !== 'string') {
+				actualArr.push(allTypes[i]);
+				expectedArr.push(allTypes[i]);
 			}
 		});
 
@@ -82,10 +92,9 @@ exports.terrific_modules = {
 	},
 	toUnderscore: function (test) {
 
-		var instance = getPrototype(),
-			actualArr = [],
-			expectedArr = []
-			;
+		var instance = getPrototype();
+		var actualArr = [];
+		var expectedArr = [];
 
 		actualArr.push('testTest');
 		expectedArr.push('test-test');
@@ -102,10 +111,10 @@ exports.terrific_modules = {
 		actualArr.push('?dfdsfs');
 		expectedArr.push('?dfdsfs');
 
-		_for(alltypes, function (i) {
-			if (alltypes[i] !== 'string') {
-				actualArr.push(alltypes[i]);
-				expectedArr.push(alltypes[i]);
+		_for(allTypes, function (i) {
+			if (allTypes[i] !== 'string') {
+				actualArr.push(allTypes[i]);
+				expectedArr.push(allTypes[i]);
 			}
 		});
 
@@ -170,8 +179,8 @@ exports.terrific_modules = {
 
 		_for(argsArray, function (i) {
 
-			var item = argsArray[i],
-				instance = new _class({
+			var item = argsArray[i];
+			var instance = new _class({
 				grunt: grunt,
 				args: item.args,
 				options: {}
@@ -179,6 +188,7 @@ exports.terrific_modules = {
 
 			instance.detectArgs();
 			test.equal(instance._data.module.name, item.module, 'detectArgs');
+
 			if (item.skin !== undefined) {
 				test.equal(instance._data.skin.name, item.skin, 'detectArgs');
 			}
@@ -193,25 +203,4 @@ exports.terrific_modules = {
 
 		test.done();
 	}
-};
-
-var getPrototype = function () {
-	var ModuleGenerator = require('../tasks/lib/terrific_modules.js').init(grunt);
-	return ModuleGenerator.getPrototype();
-};
-
-var getClass = function () {
-	var ModuleGenerator = require('../tasks/lib/terrific_modules.js').init(grunt);
-	return ModuleGenerator.getClass();
-};
-
-var _for = function (array, callback) {
-	var i = 0,
-		len = array.length
-		;
-
-	for (i; i < len; i += 1) {
-		callback.call(array[i], i);
-	}
-
 };

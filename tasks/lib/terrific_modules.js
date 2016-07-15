@@ -6,58 +6,31 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
-
-exports.init = function (grunt) {
-
-	var exports = {},
-		moduleGenerator;
-
-	exports.run = function (options) {
-		moduleGenerator = new ModuleGenerator({
-			grunt: grunt,
-			args: options.arguments,
-			options: options.options
-		});
-
-		moduleGenerator.detectArgs();
-		moduleGenerator.write();
-	};
-
-	exports.getPrototype = function () {
-		return ModuleGenerator.prototype;
-	};
-
-	exports.getClass = function () {
-		return ModuleGenerator;
-	};
-
-	return exports;
-};
-
-
 /**
  *
- * @class ModuleGenerator
+ * generates a Module
+ *
+ * @constructor ModuleGenerator
  * @author Simon Mollweide
  * @namespace grunt
- * @param {object} options
- * @constructor
- *
- * generates a Module
+ * @param {Object} options - the class options
+ * @returns {void}
  */
 function ModuleGenerator(options) {
 	this.init(options);
 }
 
 ModuleGenerator.prototype = {
-	constructor : ModuleGenerator,
+
+	constructor: ModuleGenerator,
 
 	/**
 	 *
-	 * @method init
 	 * called by constructor
-	 * @param {object} options
+	 *
+	 * @method init
+	 * @param {Object} options - the class options
+	 * @returns {*} returns context
 	 */
 	init: function (options) {
 
@@ -79,8 +52,7 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method detectArgs
-	 *
-	 * @returns {*}
+	 * @returns {*} returns context
 	 */
 	detectArgs: function () {
 		var self = this,
@@ -89,8 +61,8 @@ ModuleGenerator.prototype = {
 			patternTemplate = /^%/,
 			patternAuthor = /^@/,
 			name,
-			i = 1
-			;
+			item,
+			i = 1;
 
 		self._data = {};
 
@@ -112,14 +84,12 @@ ModuleGenerator.prototype = {
 			nameC: self._toCamelCase(name)
 		};
 
-		//self._console('dir', data.module.nameU);
-
 		if (argLen <= 1) {
 			return this;
 		}
 
 		for (i; i < argLen; i += 1) {
-			var item = args[i];
+			item = args[i];
 			if (item.search(patternAuthor) >= 0) {
 				self._data.author = item.replace(patternAuthor, '');
 			} else if (item.search(patternTemplate) >= 0) {
@@ -149,8 +119,7 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method write
-	 *
-	 * @returns {*}
+	 * @returns {*} returns context
 	 */
 	write: function () {
 
@@ -185,10 +154,9 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method writeModule
-	 *
-	 * @param {object} module
-	 * @param {string} author
-	 * @returns {*}
+	 * @param {Object} module - the module object
+	 * @param {string} author - the given author
+	 * @returns {*} returns context
 	 */
 	writeModule: function (module, author) {
 
@@ -236,10 +204,10 @@ ModuleGenerator.prototype = {
 	 *
 	 * @method writeSkin
 	 *
-	 * @param {object} module
-	 * @param {object} skin
-	 * @param {string} author
-	 * @returns {*}
+	 * @param {Object} module - the module object
+	 * @param {Object} skin - the skin object
+	 * @param {string} author - the author name
+	 * @returns {*} returns context
 	 */
 	writeSkin: function (module, skin, author) {
 
@@ -252,7 +220,7 @@ ModuleGenerator.prototype = {
 			return this;
 		}
 
-		self._console('log', 'write skin: ' + skin.nameU + ' ('  + module.nameU + ')');
+		self._console('log', 'write skin: ' + skin.nameU + ' (' + module.nameU + ')');
 		self._console('log', '-----------------------------');
 
 		self._for(skinFiles, function () {
@@ -294,11 +262,10 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method writeTemplate
-	 *
-	 * @param {object} module
-	 * @param {object} template
-	 * @param {string} author
-	 * @returns {*}
+	 * @param {Object} module - the module object
+	 * @param {Object} template - the template object
+	 * @param {string} author - the author name
+	 * @returns {*} returns context
 	 */
 	writeTemplate: function (module, template, author) {
 
@@ -313,7 +280,7 @@ ModuleGenerator.prototype = {
 			return this;
 		}
 
-		self._console('log', 'write template: ' + template.nameU + ' ('  + module.nameU + ')');
+		self._console('log', 'write template: ' + template.nameU + ' (' + module.nameU + ')');
 		self._console('log', '-----------------------------');
 
 		self._for(filesTemplate, function () {
@@ -355,9 +322,8 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method writeFile
-	 *
-	 * @param {object} options
-	 * @returns {*}
+	 * @param {Object} options - the given options
+	 * @returns {*} returns context
 	 */
 	writeFile: function (options) {
 
@@ -367,8 +333,7 @@ ModuleGenerator.prototype = {
 			path = options.dest + '/' + options.template,
 			templatePath = options.src + '/' + options.template,
 			content = '',
-			pattern
-			;
+			pattern;
 
 
 		// add author if exist
@@ -405,11 +370,11 @@ ModuleGenerator.prototype = {
 
 	/**
 	 *
-	 * @method enrichWith
+	 * enrich "enrichWith.src" with "enrichWith.template" at position "enrichWith.placeholder"
 	 *
-	 * @description enrich "enrichWith.src" with "enrichWith.template" at position "enrichWith.placeholder"
-	 * @param {object} options
-	 * @returns {*}
+	 * @method enrichWith
+	 * @param {Object} options - the given options
+	 * @returns {*} returns context
 	 */
 	enrichWith: function (options) {
 
@@ -420,8 +385,7 @@ ModuleGenerator.prototype = {
 			outlet,
 			content,
 			pattern,
-			pattern2
-		;
+			pattern2;
 
 		if (typeof(options.enrichWith) !== 'object') {
 			return this;
@@ -462,10 +426,9 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method errorArgs
-	 *
-	 * @returns {*}
+	 * @returns {*} returns context
 	 */
-	errorArgs: function() {
+	errorArgs: function () {
 
 		this._console('log', '');
 		this._console('log', '');
@@ -489,25 +452,20 @@ ModuleGenerator.prototype = {
 	 *
 	 * @method _console
 	 *
-	 * @param {string} type
-	 * @param {*} value
-	 * @returns {*}
+	 * @param {string} type - console type (error|log|success)
+	 * @param {*} value - the console value
+	 * @returns {*} returns context
 	 * @private
 	 */
 	_console: function (type, value) {
 
 		var self = this,
-			key,
-			log = function (value) {
-				self.options.grunt.log.writeln(value);
+			log = function (val) {
+				self.options.grunt.log.writeln(val);
 			};
 
 		if (type === 'dir') {
-			for(key in value) {
-				if (value.hasOwnProperty(key)) {
-					log(key + ': ' + value[key]);
-				}
-			}
+			log(JSON.stringify(value));
 			return this;
 		}
 
@@ -518,18 +476,17 @@ ModuleGenerator.prototype = {
 	/**
 	 *
 	 * @method _for
-	 *
-	 * @param {array} array
-	 * @param {object} callback
+	 * @param {Array} array - the loop array
+	 * @param {function} onLoop - loop callback
+	 * @returns {void}
 	 * @private
 	 */
-	_for: function (array, callback) {
+	_for: function (array, onLoop) {
 		var i = 0,
-			len = array.length
-			;
+			len = array.length;
 
 		for (i; i < len; i += 1) {
-			callback.call(array[i], i);
+			onLoop.call(array[i], i);
 		}
 
 	},
@@ -538,20 +495,22 @@ ModuleGenerator.prototype = {
 	 *
 	 * @method _toCamelCase
 	 *
-	 * @param {string} name
-	 * @returns {string}
+	 * @param {string} value - the value
+	 * @returns {string} camelCase value
 	 * @private
 	 */
-	_toCamelCase: function (name) {
+	_toCamelCase: function (value) {
 
-		if (typeof(name) !== 'string') {
-			return name;
+		var val = value;
+
+		if (typeof(value) !== 'string') {
+			return value;
 		}
 
-		name = name.replace(/^[a-z]/, function () {
+		val = val.replace(/^[a-z]/, function () {
 			return arguments[0].toUpperCase();
 		});
-		return name.replace(/-[a-z]/g, function () {
+		return val.replace(/-[a-z]/g, function () {
 			return arguments[0].toUpperCase().replace('-', '');
 		});
 	},
@@ -560,16 +519,47 @@ ModuleGenerator.prototype = {
 	 *
 	 * @method _toUnderscore
 	 *
-	 * @param {string} name
-	 * @returns {string}
+	 * @param {string} value - the value
+	 * @returns {string} Underscore value
 	 * @private
 	 */
-	_toUnderscore: function (name) {
+	_toUnderscore: function (value) {
 
-		if (typeof(name) !== 'string') {
-			return name;
+		if (typeof(value) !== 'string') {
+			return value;
 		}
 
-		return name.replace(/[A-Z]/g, '-$&').toLowerCase().replace(/^-/, '').replace(/--/g, '-');
+		return value
+			.replace(/[A-Z]/g, '-$&')
+			.toLowerCase()
+			.replace(/^-/, '')
+			.replace(/--/g, '-');
 	}
+};
+
+exports.init = function (grunt) {
+
+	var exports = {},
+		moduleGenerator;
+
+	exports.run = function (options) {
+		moduleGenerator = new ModuleGenerator({
+			grunt: grunt,
+			args: options.arguments,
+			options: options.options
+		});
+
+		moduleGenerator.detectArgs();
+		moduleGenerator.write();
+	};
+
+	exports.getPrototype = function () {
+		return ModuleGenerator.prototype;
+	};
+
+	exports.getClass = function () {
+		return ModuleGenerator;
+	};
+
+	return exports;
 };

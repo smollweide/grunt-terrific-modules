@@ -5,9 +5,6 @@
  * Copyright (c) 2014 Jan Widmer, Simon Mollweide
  * Licensed under the MIT license.
  */
-
-'use strict';
-
 module.exports = function (grunt) {
 
 	// Project configuration.
@@ -19,17 +16,6 @@ module.exports = function (grunt) {
 			modules: '<%=paths.terrific%>/modules',
 			tags: '<%=paths.root%>/tags',
 			resource: 'resource/module'
-		},
-
-		jshint: {
-			all: [
-				'Gruntfile.js',
-				'tasks/*.js',
-				'<%= nodeunit.tests %>'
-			],
-			options: {
-				jshintrc: '.jshintrc'
-			}
 		},
 
 		// Before generating any new files, remove any previously-created files.
@@ -114,10 +100,7 @@ module.exports = function (grunt) {
 						}
 					]
 				},
-				triggerFile: 'triggerfile',
-				complete: function (data) {
-
-				}
+				triggerFile: 'triggerfile'
 			}
 		},
 
@@ -133,15 +116,14 @@ module.exports = function (grunt) {
 	grunt.loadTasks('tasks');
 
 	// These plugins provide necessary tasks.
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
+	// Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
 	// plugin's task(s), then test the result.
 	grunt.registerTask('test', ['clean', 'terrific_modules', 'nodeunit']);
 
-	// By default, lint and run all tests.
-	grunt.registerTask('default', ['jshint', 'test']);
+	// By default, run all tests.
+	grunt.registerTask('default', ['test']);
 
 };
