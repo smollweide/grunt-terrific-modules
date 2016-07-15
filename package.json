@@ -17,7 +17,7 @@
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": "https://github.com/smollweide/grunt-terrific-modules/blob/master/LICENSE-MIT"
+			"url": "https://github.com/smollweide/grunt-terrific-modules/blob/master/LICENSE"
 		}
 	],
 	"engines": {
@@ -27,6 +27,7 @@
 		"test": "grunt test"
 	},
 	"devDependencies": {
+		"@namics/eslint-config": "^0.2.0",
 		"grunt-contrib-jshint": "^0.9.2",
 		"grunt-contrib-clean": "^0.5.0",
 		"grunt-contrib-nodeunit": "^0.3.3",
