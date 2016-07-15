@@ -32,74 +32,74 @@ grunt.initConfig({
 	  options: {
 		placeholder: {
 			module: {
-				underscore: '{module}',
-				camelCase: '{Module}'
+				underscore: 'T_module',
+				camelCase: 'T_Module'
 			},
 			skin: {
-				underscore: '{skin}',
-				camelCase: '{Skin}'
+				underscore: 'T_skin',
+				camelCase: 'T_Skin'
 			},
 			template: {
-				underscore: '{template}',
-				camelCase: '{Template}'
+				underscore: 'T_template',
+				camelCase: 'T_Template'
 			},
-			author: '{author}'
+			author: 'T_author'
 		},
 		files: {
 			module: [
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}',
-					template: '{module}.jsp'
+					dest: 'pathToModulesFolder/T_module',
+					template: 'T_module.jsp'
 				},
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}',
-					template: '{module}.readme.md'
+					dest: 'pathToModulesFolder/T_module',
+					template: 'T_module.readme.md'
 				},
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}/js',
-					template: '{module}.js'
+					dest: 'pathToModulesFolder/T_module/js',
+					template: 'T_module.js'
 				},
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}/css',
-					template: '{module}.less'
+					dest: 'pathToModulesFolder/T_module/css',
+					template: 'T_module.less'
 				},
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}/i18n',
-					template: '{module}.properties'
+					dest: 'pathToModulesFolder/T_module/i18n',
+					template: 'T_module.properties'
 				},
 				{
 					src: 'pathToResourceFolder',
 					dest: 'pathToTags',
-					template: '{module}.tag'
+					template: 'T_module.tag'
 				}
 			],
 			skin: [
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}/js',
-					template: '{module}.skin.{skin}.js'
+					dest: 'pathToModulesFolder/T_module/js',
+					template: 'T_module.skin.T_skin.js'
 				},
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}/css',
-					template: '{module}.skin.{skin}.less'
+					dest: 'pathToModulesFolder/T_module/css',
+					template: 'T_module.skin.T_skin.less'
 				}
 			],
 			template: [
 				{
 					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/{module}',
-					template: '{module}-{template}.jsp',
+					dest: 'pathToModulesFolder/T_module',
+					template: 'T_module-T_template.jsp',
 					enrichWith: {
-						src: 'pathToTags/{module}.tag',
+						src: 'pathToTags/T_module.tag',
 						// use UTF8 code for % (U+0025)
 						placeholder: '<U+0025-- outlet.template --U+0025>',
-						template: 'pathToResourceFolder/{module}.template.tag'
+						template: 'pathToResourceFolder/T_module.template.tag'
 					}
 				}
 			]
@@ -151,14 +151,14 @@ All files defined in this array need to exist in the resource directory.
 ### Recommended placeholder names:
 (can be changed but is not recommended because you have to change all resource file-names)
 
-- module lowercase: {module}
-- module camelcase: {Module}
-- skin lowercase: {skin}
-- skin camelcase: {Skin}
-- template lowercase: {template}
-- template camelcase: {Template}
-- author lowercase: {author}
-- author camelcase: {Author}
+- module lowercase: T_module
+- module camelcase: T_Module
+- skin lowercase: T_skin
+- skin camelcase: T_Skin
+- template lowercase: T_template
+- template camelcase: T_Template
+- author lowercase: T_author
+- author camelcase: T_Author
 
 
 ## License

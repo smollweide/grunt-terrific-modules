@@ -1,16 +1,16 @@
 (function ($) {
 	'use strict';
 
-	test('{Module}', function() {
+	test('T_Module', function() {
 
 		var result,
 			expected,
 			message,
-			TModule = T.Module.{Module}.prototype;
+			TModule = T.Module.T_Module.prototype;
 
 		module('install', {
 			setup: function() {
-				TModule = T.Module.{Module}.prototype;
+				TModule = T.Module.T_Module.prototype;
 			}, 
 			teardown: function() {
 				result = null;

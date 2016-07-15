@@ -1,4 +1,4 @@
-{Module} - Terrific Module Documentation
+T_Module - Terrific Module Documentation
 ------------------------------------------------------------------------------------------------------------------------
 
 ## Summary

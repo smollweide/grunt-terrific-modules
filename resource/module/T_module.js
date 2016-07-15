@@ -4,12 +4,12 @@
 	/**
 	 * Module implementation.
 	 *
-	 * @author {author}
+	 * @author T_author
 	 * @namespace T.Module
-	 * @class {Module}
+	 * @class T_Module
 	 * @extends T.Module
 	 */
-	T.Module.{Module} = T.createModule({
+	T.Module.T_Module = T.createModule({
 
 		/**
 		 * executed on application.start()

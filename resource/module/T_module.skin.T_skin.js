@@ -2,15 +2,15 @@
 	'use strict';
 
 	/**
-	 * {Skin} Skin implementation for the module {Module}.
+	 * T_Skin Skin implementation for the module T_Module.
 	 *
-	 * @author {author}
-	 * @namespace T.Module.{Module}
-	 * @class {Skin}
+	 * @author T_author
+	 * @namespace T.Module.T_Module
+	 * @class T_Skin
 	 * @extends T.Module
 	 * @constructor
 	 */
-	T.Module.{Module}.{Skin} = T.createDecorator({
+	T.Module.T_Module.T_Skin = T.createDecorator({
 
 		/**
 		 * executed on application.start()

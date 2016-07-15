@@ -2,4 +2,4 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="mod" tagdir="/WEB-INF/tags/terrific/modules"%>
 
-<h1>Module: {Module}</h1>
+<h1>Module: T_Module, Template: T_Template</h1>

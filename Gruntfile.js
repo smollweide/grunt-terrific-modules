@@ -42,74 +42,74 @@ module.exports = function (grunt) {
 			options: {
 				placeholder: {
 					module: {
-						underscore: '{module}',
-						camelCase: '{Module}'
+						underscore: 'T_module',
+						camelCase: 'T_Module'
 					},
 					skin: {
-						underscore: '{skin}',
-						camelCase: '{Skin}'
+						underscore: 'T_skin',
+						camelCase: 'T_Skin'
 					},
 					template: {
-						underscore: '{template}',
-						camelCase: '{Template}'
+						underscore: 'T_template',
+						camelCase: 'T_Template'
 					},
-					author: '{author}'
+					author: 'T_author'
 				},
 				files: {
 					module: [
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}',
-							template: '{module}.jsp'
+							dest: '<%=paths.modules%>/T_module',
+							template: 'T_module.jsp'
 						},
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}',
-							template: '{module}.readme.md'
+							dest: '<%=paths.modules%>/T_module',
+							template: 'T_module.readme.md'
 						},
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}/js',
-							template: '{module}.js'
+							dest: '<%=paths.modules%>/T_module/js',
+							template: 'T_module.js'
 						},
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}/css',
-							template: '{module}.less'
+							dest: '<%=paths.modules%>/T_module/css',
+							template: 'T_module.less'
 						},
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}/i18n',
-							template: '{module}.properties'
+							dest: '<%=paths.modules%>/T_module/i18n',
+							template: 'T_module.properties'
 						},
 						{
 							src: '<%=paths.resource%>',
 							dest: '<%=paths.tags%>',
-							template: '{module}.tag'
+							template: 'T_module.tag'
 						}
 					],
 					skin: [
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}/js',
-							template: '{module}.skin.{skin}.js'
+							dest: '<%=paths.modules%>/T_module/js',
+							template: 'T_module.skin.T_skin.js'
 						},
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}/css',
-							template: '{module}.skin.{skin}.less'
+							dest: '<%=paths.modules%>/T_module/css',
+							template: 'T_module.skin.T_skin.less'
 						}
 					],
 					template: [
 						{
 							src: '<%=paths.resource%>',
-							dest: '<%=paths.modules%>/{module}',
-							template: '{module}-{template}.jsp',
+							dest: '<%=paths.modules%>/T_module',
+							template: 'T_module-T_template.jsp',
 							enrichWith: {
-								src: '<%=paths.tags%>/{module}.tag',
+								src: '<%=paths.tags%>/T_module.tag',
 								// use UTF8 code for % (U+0025)
 								placeholder: '<U+0025-- outlet.template --U+0025>',
-								template: '<%=paths.resource%>/{module}.template.tag'
+								template: '<%=paths.resource%>/T_module.template.tag'
 							}
 						}
 					]
