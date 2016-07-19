@@ -64,7 +64,7 @@ module.exports = function (grunt) {
 							template: 'T_module.js',
 							enrichWith: {
 								src: '<%=paths.es6modules%>',
-								placeholder: '\/\/ outlet.es6modules',
+								placeholder: '// outlet.es6modules',
 								template: '<%=paths.resource%>/T_module.es6module.js'
 							}
 						},
