@@ -60,6 +60,7 @@ ModuleGenerator.prototype = {
 			argLen = args.length,
 			patternTemplate = /^%/,
 			patternAuthor = /^@/,
+			patternType = /^-/,
 			name,
 			item,
 			i = 1;
@@ -84,12 +85,19 @@ ModuleGenerator.prototype = {
 			nameC: self._toCamelCase(name)
 		};
 
+		self._data.type = {
+			name: 'atoms',
+			nameU: self._toUnderscore('atoms'),
+			nameC: self._toCamelCase('atoms')
+		};
+
 		if (argLen <= 1) {
 			return this;
 		}
 
 		for (i; i < argLen; i += 1) {
 			item = args[i];
+
 			if (item.search(patternAuthor) >= 0) {
 				self._data.author = item.replace(patternAuthor, '');
 			} else if (item.search(patternTemplate) >= 0) {
@@ -101,6 +109,16 @@ ModuleGenerator.prototype = {
 					nameU: self._toUnderscore(name),
 					nameC: self._toCamelCase(name)
 				};
+			} else if (item.search(patternType) >= 0) {
+
+				name = item.replace(patternType, '');
+
+				self._data.type = {
+					name: name,
+					nameU: self._toUnderscore(name),
+					nameC: self._toCamelCase(name)
+				};
+
 			} else {
 
 				name = item;
@@ -162,8 +180,8 @@ ModuleGenerator.prototype = {
 
 		var self = this,
 			placeholder = self.taskPlaceholder,
-			moduleFiles = self.taskFiles.module
-			;
+			type = self._data.type,
+			moduleFiles = self.taskFiles.module;
 
 		if (typeof(moduleFiles) !== 'object') {
 			return this;
@@ -173,7 +191,6 @@ ModuleGenerator.prototype = {
 		self._console('log', '-----------------------------');
 
 		self._for(moduleFiles, function () {
-
 			self.writeFile({
 				src: this.src,
 				dest: this.dest,
@@ -189,6 +206,10 @@ ModuleGenerator.prototype = {
 					{
 						_that: placeholder.module.camelCase,
 						_with: module.nameC
+					},
+					{
+						_that: placeholder.type.underscore,
+						_with: type.name
 					}
 				]
 			});
@@ -213,8 +234,8 @@ ModuleGenerator.prototype = {
 
 		var self = this,
 			placeholder = self.taskPlaceholder,
-			skinFiles = self.taskFiles.skin
-			;
+			type = self._data.type,
+			skinFiles = self.taskFiles.skin;
 
 		if (typeof(skinFiles) !== 'object') {
 			return this;
@@ -247,6 +268,10 @@ ModuleGenerator.prototype = {
 					{
 						_that: placeholder.skin.camelCase,
 						_with: skin.nameC
+					},
+					{
+						_that: placeholder.type.underscore,
+						_with: type.name
 					}
 				]
 			});
@@ -271,8 +296,8 @@ ModuleGenerator.prototype = {
 
 		var self = this,
 			placeholder = self.taskPlaceholder,
-			filesTemplate = self.taskFiles.template
-			;
+			type = self._data.type,
+			filesTemplate = self.taskFiles.template;
 
 		self._console('log', 'writeTemplate');
 
@@ -308,6 +333,10 @@ ModuleGenerator.prototype = {
 					{
 						_that: placeholder.template.camelCase,
 						_with: template.nameC
+					},
+					{
+						_that: placeholder.type.underscore,
+						_with: type.name
 					}
 				]
 			});
@@ -442,8 +471,10 @@ ModuleGenerator.prototype = {
 		this._console('log', 'grunt terrific_modules:moduleName:@authorName:skinName');
 		this._console('log', 'or add template');
 		this._console('log', 'grunt terrific_modules:moduleName:@authorName:%templateName');
+		this._console('log', 'or add type');
+		this._console('log', 'grunt terrific_modules:moduleName:-typeName:@authorName');
 		this._console('log', 'or add all');
-		this._console('log', 'grunt terrific_modules:moduleName:@authorName:skinName:%templateName');
+		this._console('log', 'grunt terrific_modules:moduleName:-typeName:@authorName:skinName:%templateName');
 
 		return this;
 	},

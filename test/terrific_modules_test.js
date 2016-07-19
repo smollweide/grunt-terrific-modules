@@ -177,6 +177,24 @@ exports.terrific_modules = {
 			author: 'authorname'
 		});
 
+		argsArray.push({
+			args: ['modulename', '%templatename', 'skinname', '@authorname', '-type'],
+			module: 'modulename',
+			skin: 'skinname',
+			template: 'templatename',
+			author: 'authorname',
+			type: 'type'
+		});
+
+		argsArray.push({
+			args: ['modulename', '-type', '%templatename', 'skinname', '@authorname'],
+			module: 'modulename',
+			skin: 'skinname',
+			template: 'templatename',
+			author: 'authorname',
+			type: 'type'
+		});
+
 		_for(argsArray, function (i) {
 
 			var item = argsArray[i];
@@ -197,6 +215,9 @@ exports.terrific_modules = {
 			}
 			if (item.author !== undefined) {
 				test.equal(instance._data.author, item.author, 'detectArgs');
+			}
+			if (item.type !== undefined) {
+				test.equal(instance._data.type.name, item.type, 'detectArgs');
 			}
 
 		});
