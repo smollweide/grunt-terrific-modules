@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 			root: 'web/webroot/WEB-INF',
 			terrific: '<%=paths.root%>/terrific',
 			modules: '<%=paths.terrific%>/components',
+			es6modules: '<%=paths.terrific%>/components.js',
 			tags: '<%=paths.root%>/tags/terrific/components',
 			resource: 'resource/module'
 		},
@@ -60,7 +61,12 @@ module.exports = function (grunt) {
 						{
 							src: '<%=paths.resource%>',
 							dest: '<%=paths.modules%>/T_type/T_module/js',
-							template: 'T_module.js'
+							template: 'T_module.js',
+							enrichWith: {
+								src: '<%=paths.es6modules%>',
+								placeholder: '\/\/ outlet.es6modules',
+								template: '<%=paths.resource%>/T_module.es6module.js'
+							}
 						},
 						{
 							src: '<%=paths.resource%>',

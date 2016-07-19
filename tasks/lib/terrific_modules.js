@@ -197,6 +197,7 @@ ModuleGenerator.prototype = {
 				folder: this.folder,
 				name: module.nameU,
 				template: this.template,
+				enrichWith: this.enrichWith,
 				author: author,
 				replacement: [
 					{
@@ -251,6 +252,7 @@ ModuleGenerator.prototype = {
 				folder: this.folder,
 				name: module.nameU,
 				template: this.template,
+				enrichWith: this.enrichWith,
 				author: author,
 				replacement: [
 					{
@@ -437,12 +439,10 @@ ModuleGenerator.prototype = {
 		}
 
 		content = grunt.file.read(pathSrc);
-
-		if (content.search(pattern2) <= 0) {
+		if (content.search(pattern2) < 0) {
 			self._console('log', 'placeholder (' + options.enrichWith.placeholder + ') not found in file "' + pathSrc + '"');
 			return this;
 		}
-
 		content = content.replace(pattern2, outlet);
 
 		grunt.file.write(pathSrc, content);
