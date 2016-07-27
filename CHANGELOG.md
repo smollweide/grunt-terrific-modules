@@ -1,3 +1,7 @@
+## [1.1.0](https://github.com/smollweide/grunt-terrific-modules/releases/tag/1.1.0)
+- [1a639d9](https://github.com/smollweide/grunt-terrific-modules/commit/1a639d995529b66c4bfea67c0763c922f117c1a3) Update eslint config and refactoring
+- [5540144](https://github.com/smollweide/grunt-terrific-modules/commit/554014468ab055aa8381e4d658bbd0db14097062) Add custom replacement for atomic design class names
+
 ## [1.0.0](https://github.com/smollweide/grunt-terrific-modules/releases/tag/1.0.0)
 - [892ef55](https://github.com/smollweide/grunt-terrific-modules/commit/892ef55031d9203d83a63768cd6a4cf0a47c8d27) Add enrichWith for all placeholders
 - [46b51da](https://github.com/smollweide/grunt-terrific-modules/commit/46b51da2c36f609260a7150fb69ee41409d86905) Add new argument "type" for atomic design
