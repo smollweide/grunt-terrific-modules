@@ -40,6 +40,41 @@ var allTypes = [
 	_numberMinus, _integer, _integerMinus,
 	_float, _floatMinus
 ];
+var placeholder = {
+	module: {
+		underscore: 'T_module',
+		camelCase: 'T_Module'
+	},
+	skin: {
+		underscore: 'T_skin',
+		camelCase: 'T_Skin'
+	},
+	template: {
+		underscore: 'T_template',
+		camelCase: 'T_Template'
+	},
+	type: {
+		underscore: 'T_type',
+		underscoreCustom: [
+			'T_customType',
+			{
+				atoms: 'a',
+				molecules: 'm',
+				organisms: 'o'
+			}
+		],
+		camelCase: 'T_Type',
+		camelCaseCustom: [
+			'T_CustomType',
+			{
+				Atoms: 'a',
+				Molecules: 'm',
+				Organisms: 'o'
+			}
+		]
+	},
+	author: 'T_author'
+};
 var getPrototype = function () {
 	return ModuleGenerator.getPrototype();
 };
@@ -201,7 +236,9 @@ exports.terrific_modules = {
 			var instance = new _class({
 				grunt: grunt,
 				args: item.args,
-				options: {}
+				options: {
+					placeholder: placeholder
+				}
 			});
 
 			instance.detectArgs();

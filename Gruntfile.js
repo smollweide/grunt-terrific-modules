@@ -42,7 +42,23 @@ module.exports = function (grunt) {
 					},
 					type: {
 						underscore: 'T_type',
-						camelCase: 'T_Type'
+						underscoreCustom: [
+							'T_customType',
+							{
+								atoms: 'a',
+								molecules: 'm',
+								organisms: 'o'
+							}
+						],
+						camelCase: 'T_Type',
+						camelCaseCustom: [
+							'T_CustomType',
+							{
+								Atoms: 'a',
+								Molecules: 'm',
+								Organisms: 'o'
+							}
+						]
 					},
 					author: 'T_author'
 				},

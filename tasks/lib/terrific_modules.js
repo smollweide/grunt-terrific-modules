@@ -131,7 +131,48 @@ ModuleGenerator.prototype = {
 			}
 		}
 
+		self._data = self.attachCustomReplacements(self._data);
+
 		return this;
+	},
+
+	/**
+	 * @method attachCustomReplacements
+	 * @param {Object} obj the object where custom attributes should be attached
+	 * @returns {Object} the object where custom attributes were attached
+	 */
+	attachCustomReplacements: function (obj) {
+
+		var self = this;
+
+		this._forIn(obj, function (key, value) {
+
+			var val = value,
+				underscoreCustom,
+				camelCaseCustom;
+
+			if (!self.taskPlaceholder[key]) {
+				val.nameUCustom = val.nameU;
+				val.nameCCustom = val.nameC;
+			}
+
+			if (!self.taskPlaceholder[key].underscoreCustom) {
+				val.nameUCustom = val.nameU;
+			} else {
+				underscoreCustom = self.taskPlaceholder[key].underscoreCustom;
+				val.nameUCustom = underscoreCustom[1][val.nameU];
+			}
+
+			if (!self.taskPlaceholder[key].camelCaseCustom) {
+				val.nameCCustom = val.nameC;
+			} else {
+				camelCaseCustom = self.taskPlaceholder[key].camelCaseCustom;
+				val.nameCCustom = camelCaseCustom[1][val.nameC];
+			}
+
+		});
+
+		return obj;
 	},
 
 	/**
@@ -170,6 +211,61 @@ ModuleGenerator.prototype = {
 	},
 
 	/**
+	 * @method enrichWithReplacement
+	 * @param {string} name of the replace part
+	 * @param {Array} arr - the array which should be enriched
+	 * @returns {void}
+	 */
+	enrichWithReplacement: function (name, arr) {
+		var placeholder = this.taskPlaceholder,
+			obj = this._data[name];
+
+		if (!obj || !obj.name || !placeholder[name]) {
+			return;
+		}
+
+		arr.push({
+			_that: placeholder[name].underscore,
+			_with: obj.nameU
+		});
+
+		arr.push({
+			_that: placeholder[name].camelCase,
+			_with: obj.nameC
+		});
+
+		if (placeholder[name].underscoreCustom) {
+			arr.push({
+				_that: placeholder[name].underscoreCustom[0],
+				_with: placeholder[name].underscoreCustom[1][obj.nameU]
+			});
+		}
+
+		if (placeholder[name].camelCaseCustom) {
+			arr.push({
+				_that: placeholder[name].camelCaseCustom[0],
+				_with: placeholder[name].camelCaseCustom[1][obj.nameC]
+			});
+		}
+	},
+
+	/**
+	 * @method getReplacements
+	 * @returns {Array} array filled with the replacement objects
+	 */
+	getReplacements: function () {
+
+		var out = [];
+
+		this.enrichWithReplacement('module', out);
+		this.enrichWithReplacement('type', out);
+		this.enrichWithReplacement('skin', out);
+		this.enrichWithReplacement('template', out);
+
+		return out;
+	},
+
+	/**
 	 *
 	 * @method writeModule
 	 * @param {Object} module - the module object
@@ -179,8 +275,6 @@ ModuleGenerator.prototype = {
 	writeModule: function (module, author) {
 
 		var self = this,
-			placeholder = self.taskPlaceholder,
-			type = self._data.type,
 			moduleFiles = self.taskFiles.module;
 
 		if (typeof(moduleFiles) !== 'object') {
@@ -199,20 +293,7 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				enrichWith: this.enrichWith,
 				author: author,
-				replacement: [
-					{
-						_that: placeholder.module.underscore,
-						_with: module.nameU
-					},
-					{
-						_that: placeholder.module.camelCase,
-						_with: module.nameC
-					},
-					{
-						_that: placeholder.type.underscore,
-						_with: type.name
-					}
-				]
+				replacement: self.getReplacements()
 			});
 		});
 
@@ -234,8 +315,6 @@ ModuleGenerator.prototype = {
 	writeSkin: function (module, skin, author) {
 
 		var self = this,
-			placeholder = self.taskPlaceholder,
-			type = self._data.type,
 			skinFiles = self.taskFiles.skin;
 
 		if (typeof(skinFiles) !== 'object') {
@@ -254,28 +333,7 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				enrichWith: this.enrichWith,
 				author: author,
-				replacement: [
-					{
-						_that: placeholder.module.underscore,
-						_with: module.nameU
-					},
-					{
-						_that: placeholder.module.camelCase,
-						_with: module.nameC
-					},
-					{
-						_that: placeholder.skin.underscore,
-						_with: skin.nameU
-					},
-					{
-						_that: placeholder.skin.camelCase,
-						_with: skin.nameC
-					},
-					{
-						_that: placeholder.type.underscore,
-						_with: type.name
-					}
-				]
+				replacement: self.getReplacements()
 			});
 		});
 
@@ -297,8 +355,6 @@ ModuleGenerator.prototype = {
 	writeTemplate: function (module, template, author) {
 
 		var self = this,
-			placeholder = self.taskPlaceholder,
-			type = self._data.type,
 			filesTemplate = self.taskFiles.template;
 
 		self._console('log', 'writeTemplate');
@@ -319,28 +375,7 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				author: author,
 				enrichWith: this.enrichWith,
-				replacement: [
-					{
-						_that: placeholder.module.underscore,
-						_with: module.nameU
-					},
-					{
-						_that: placeholder.module.camelCase,
-						_with: module.nameC
-					},
-					{
-						_that: placeholder.template.underscore,
-						_with: template.nameU
-					},
-					{
-						_that: placeholder.template.camelCase,
-						_with: template.nameC
-					},
-					{
-						_that: placeholder.type.underscore,
-						_with: type.name
-					}
-				]
+				replacement: self.getReplacements()
 			});
 		});
 
@@ -520,6 +555,24 @@ ModuleGenerator.prototype = {
 			onLoop.call(array[i], i);
 		}
 
+	},
+
+	/**
+	 *
+	 * @method _forIn
+	 * @param {Object} obj - object that should be looped
+	 * @param {function} callback returns key value pair
+	 * @returns {void}
+	 * @private
+	 */
+	_forIn: function (obj, callback) {
+		/* eslint-disable */
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				callback.call(this, key, obj[key]);
+			}
+		}
+		/* eslint-enable */
 	},
 
 	/**

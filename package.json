@@ -20,6 +20,7 @@
 	},
 	"scripts": {
 		"lint": "./node_modules/.bin/eslint ./test ./Gruntfile.js ./tasks",
+		"pretest": "npm run lint",
 		"test": "grunt test",
 		"start": "npm run test"
 	},

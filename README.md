@@ -34,88 +34,100 @@ In your project's Gruntfile, add a section named `terrific_modules` to the data 
 
 ```js
 grunt.initConfig({
-  terrific_modules: {
-	  options: {
-		placeholder: {
-			module: {
-				underscore: 'T_module',
-				camelCase: 'T_Module'
-			},
-			skin: {
-				underscore: 'T_skin',
-				camelCase: 'T_Skin'
-			},
-			template: {
-				underscore: 'T_template',
-				camelCase: 'T_Template'
-			},
-			author: 'T_author'
-		},
-		files: {
-			module: [
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module',
-					template: 'T_module.jsp'
+	terrific_modules: {
+		options: {
+			placeholder: {
+				module: {
+					underscore: 'T_module',
+					camelCase: 'T_Module'
 				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module',
-					template: 'T_module.readme.md'
+				skin: {
+					underscore: 'T_skin',
+					camelCase: 'T_Skin'
 				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module/js',
-					template: 'T_module.js'
+				template: {
+					underscore: 'T_template',
+					camelCase: 'T_Template'
 				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module/css',
-					template: 'T_module.less'
-				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module/i18n',
-					template: 'T_module.properties'
-				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToTags',
-					template: 'T_module.tag'
-				}
-			],
-			skin: [
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module/js',
-					template: 'T_module.skin.T_skin.js'
-				},
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module/css',
-					template: 'T_module.skin.T_skin.less'
-				}
-			],
-			template: [
-				{
-					src: 'pathToResourceFolder',
-					dest: 'pathToModulesFolder/T_module',
-					template: 'T_module-T_template.jsp',
-					enrichWith: {
-						src: 'pathToTags/T_module.tag',
-						// use UTF8 code for % (U+0025)
-						placeholder: '<U+0025-- outlet.template --U+0025>',
-						template: 'pathToResourceFolder/T_module.template.tag'
+				type: {
+					underscore: 'T_type',
+					camelCase: 'T_Type',
+					customUnderscore: {
+						atoms: 'a',
+						molecules: 'm',
+						organisms: 'o',
+						helper: 'h'
 					}
-				}
-			]
-		},
-		triggerFile: '<path>/triggerfile',
-		complete: function (data) {
-
+				},
+				author: 'T_author'
+			},
+			files: {
+				module: [
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module',
+						template: 'T_module.jsp'
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module',
+						template: 'T_module.readme.md'
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module/js',
+						template: 'T_module.js',
+						enrichWith: {
+							src: '<%=paths.es6modules%>',
+							placeholder: '// outlet.es6modules',
+							template: '<%=paths.resource%>/T_module.es6module.js'
+						}
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module/css',
+						template: 'T_module.less'
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module/i18n',
+						template: 'T_module.properties'
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.tags%>/T_type',
+						template: 'T_module.tag'
+					}
+				],
+				skin: [
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module/js',
+						template: 'T_module.skin.T_skin.js'
+					},
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module/css',
+						template: 'T_module.skin.T_skin.less'
+					}
+				],
+				template: [
+					{
+						src: '<%=paths.resource%>',
+						dest: '<%=paths.modules%>/T_type/T_module',
+						template: 'T_module-T_template.jsp',
+						enrichWith: {
+							src: '<%=paths.tags%>/T_type/T_module.tag',
+							// use UTF8 code for % (U+0025)
+							placeholder: '<U+0025-- outlet.template --U+0025>',
+							template: '<%=paths.resource%>/T_module.template.tag'
+						}
+					}
+				]
+			},
+			triggerFile: 'triggerfile'
 		}
-	  }
-  },
+	}
 });
 ```
 
