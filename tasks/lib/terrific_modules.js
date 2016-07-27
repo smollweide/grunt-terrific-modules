@@ -6,6 +6,8 @@
  * Licensed under the MIT license.
  */
 
+/* eslint complexity: 0 */
+
 /**
  *
  * generates a Module
@@ -34,16 +36,16 @@ ModuleGenerator.prototype = {
 	 */
 	init: function (options) {
 
-		var self = this;
+		var _this = this;
 
-		self.options = options;
-		self.args = self.options.args;
-		self.taskPlaceholder = self.options.options.placeholder;
-		self.taskFiles = self.options.options.files;
-		self.triggerFile = self.options.options.triggerFile;
-		self.complete = self.options.options.complete;
+		_this.options = options;
+		_this.args = _this.options.args;
+		_this.taskPlaceholder = _this.options.options.placeholder;
+		_this.taskFiles = _this.options.options.files;
+		_this.triggerFile = _this.options.options.triggerFile;
+		_this.complete = _this.options.options.complete;
 
-		self._data = {};
+		_this._data = {};
 
 		return this;
 	},
@@ -55,8 +57,8 @@ ModuleGenerator.prototype = {
 	 * @returns {*} returns context
 	 */
 	detectArgs: function () {
-		var self = this,
-			args = self.args,
+		var _this = this,
+			args = _this.args,
 			argLen = args.length,
 			patternTemplate = /^%/,
 			patternAuthor = /^@/,
@@ -65,30 +67,30 @@ ModuleGenerator.prototype = {
 			item,
 			i = 1;
 
-		self._data = {};
+		_this._data = {};
 
 		if (argLen <= 0) {
-			self.errorArgs();
+			_this.errorArgs();
 			return this;
 		}
 
-		self._console('log', '');
-		self._console('log', '');
-		self._console('log', '----- generator-module -----');
-		self._console('log', '');
+		_this._console('log', '');
+		_this._console('log', '');
+		_this._console('log', '----- generator-module -----');
+		_this._console('log', '');
 
 		name = args[0];
 
-		self._data.module = {
+		_this._data.module = {
 			name: name,
-			nameU: self._toUnderscore(name),
-			nameC: self._toCamelCase(name)
+			nameU: _this._toUnderscore(name),
+			nameC: _this._toCamelCase(name)
 		};
 
-		self._data.type = {
+		_this._data.type = {
 			name: 'atoms',
-			nameU: self._toUnderscore('atoms'),
-			nameC: self._toCamelCase('atoms')
+			nameU: _this._toUnderscore('atoms'),
+			nameC: _this._toCamelCase('atoms')
 		};
 
 		if (argLen <= 1) {
@@ -99,39 +101,39 @@ ModuleGenerator.prototype = {
 			item = args[i];
 
 			if (item.search(patternAuthor) >= 0) {
-				self._data.author = item.replace(patternAuthor, '');
+				_this._data.author = item.replace(patternAuthor, '');
 			} else if (item.search(patternTemplate) >= 0) {
 
 				name = item.replace(patternTemplate, '');
 
-				self._data.template = {
+				_this._data.template = {
 					name: name,
-					nameU: self._toUnderscore(name),
-					nameC: self._toCamelCase(name)
+					nameU: _this._toUnderscore(name),
+					nameC: _this._toCamelCase(name)
 				};
 			} else if (item.search(patternType) >= 0) {
 
 				name = item.replace(patternType, '');
 
-				self._data.type = {
+				_this._data.type = {
 					name: name,
-					nameU: self._toUnderscore(name),
-					nameC: self._toCamelCase(name)
+					nameU: _this._toUnderscore(name),
+					nameC: _this._toCamelCase(name)
 				};
 
 			} else {
 
 				name = item;
 
-				self._data.skin = {
+				_this._data.skin = {
 					name: name,
-					nameU: self._toUnderscore(name),
-					nameC: self._toCamelCase(name)
+					nameU: _this._toUnderscore(name),
+					nameC: _this._toCamelCase(name)
 				};
 			}
 		}
 
-		self._data = self.attachCustomReplacements(self._data);
+		_this._data = _this.attachCustomReplacements(_this._data);
 
 		return this;
 	},
@@ -143,7 +145,7 @@ ModuleGenerator.prototype = {
 	 */
 	attachCustomReplacements: function (obj) {
 
-		var self = this;
+		var _this = this;
 
 		this._forIn(obj, function (key, value) {
 
@@ -151,22 +153,22 @@ ModuleGenerator.prototype = {
 				underscoreCustom,
 				camelCaseCustom;
 
-			if (!self.taskPlaceholder[key]) {
+			if (!_this.taskPlaceholder[key]) {
 				val.nameUCustom = val.nameU;
 				val.nameCCustom = val.nameC;
 			}
 
-			if (!self.taskPlaceholder[key].underscoreCustom) {
+			if (!_this.taskPlaceholder[key].underscoreCustom) {
 				val.nameUCustom = val.nameU;
 			} else {
-				underscoreCustom = self.taskPlaceholder[key].underscoreCustom;
+				underscoreCustom = _this.taskPlaceholder[key].underscoreCustom;
 				val.nameUCustom = underscoreCustom[1][val.nameU];
 			}
 
-			if (!self.taskPlaceholder[key].camelCaseCustom) {
+			if (!_this.taskPlaceholder[key].camelCaseCustom) {
 				val.nameCCustom = val.nameC;
 			} else {
-				camelCaseCustom = self.taskPlaceholder[key].camelCaseCustom;
+				camelCaseCustom = _this.taskPlaceholder[key].camelCaseCustom;
 				val.nameCCustom = camelCaseCustom[1][val.nameC];
 			}
 
@@ -182,29 +184,29 @@ ModuleGenerator.prototype = {
 	 */
 	write: function () {
 
-		var self = this;
+		var _this = this;
 
-		if (typeof(self._data.module) !== 'object') {
+		if (typeof(_this._data.module) !== 'object') {
 			return this;
 		}
 
-		self.writeModule(self._data.module, self._data.author);
+		_this.writeModule(_this._data.module, _this._data.author);
 
-		if (typeof(self._data.skin) === 'object') {
-			self.writeSkin(self._data.module, self._data.skin, self._data.author);
+		if (typeof(_this._data.skin) === 'object') {
+			_this.writeSkin(_this._data.module, _this._data.skin, _this._data.author);
 		}
 
-		if (typeof(self._data.template) === 'object') {
-			self.writeTemplate(self._data.module, self._data.template, self._data.author);
+		if (typeof(_this._data.template) === 'object') {
+			_this.writeTemplate(_this._data.module, _this._data.template, _this._data.author);
 		}
 
-		if (typeof(self.triggerFile) === 'string') {
-			self.options.grunt.file.write(self.triggerFile, '');
-			self._console('log', 'write file: ' + new Date());
+		if (typeof(_this.triggerFile) === 'string') {
+			_this.options.grunt.file.write(_this.triggerFile, '');
+			_this._console('log', 'write file: ' + new Date());
 		}
 
-		if (typeof(self.complete) === 'function') {
-			self.complete.call(self, self._data);
+		if (typeof(_this.complete) === 'function') {
+			_this.complete.call(_this, _this._data);
 		}
 
 		return this;
@@ -274,18 +276,18 @@ ModuleGenerator.prototype = {
 	 */
 	writeModule: function (module, author) {
 
-		var self = this,
-			moduleFiles = self.taskFiles.module;
+		var _this = this,
+			moduleFiles = _this.taskFiles.module;
 
 		if (typeof(moduleFiles) !== 'object') {
 			return this;
 		}
 
-		self._console('log', 'write module: ' + module.nameU);
-		self._console('log', '-----------------------------');
+		_this._console('log', 'write module: ' + module.nameU);
+		_this._console('log', '-----------------------------');
 
-		self._for(moduleFiles, function () {
-			self.writeFile({
+		_this._for(moduleFiles, function () {
+			_this.writeFile({
 				src: this.src,
 				dest: this.dest,
 				folder: this.folder,
@@ -293,12 +295,12 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				enrichWith: this.enrichWith,
 				author: author,
-				replacement: self.getReplacements()
+				replacement: _this.getReplacements()
 			});
 		});
 
-		self._console('log', '-----------------------------');
-		self._console('log', '');
+		_this._console('log', '-----------------------------');
+		_this._console('log', '');
 
 		return this;
 	},
@@ -314,18 +316,18 @@ ModuleGenerator.prototype = {
 	 */
 	writeSkin: function (module, skin, author) {
 
-		var self = this,
-			skinFiles = self.taskFiles.skin;
+		var _this = this,
+			skinFiles = _this.taskFiles.skin;
 
 		if (typeof(skinFiles) !== 'object') {
 			return this;
 		}
 
-		self._console('log', 'write skin: ' + skin.nameU + ' (' + module.nameU + ')');
-		self._console('log', '-----------------------------');
+		_this._console('log', 'write skin: ' + skin.nameU + ' (' + module.nameU + ')');
+		_this._console('log', '-----------------------------');
 
-		self._for(skinFiles, function () {
-			self.writeFile({
+		_this._for(skinFiles, function () {
+			_this.writeFile({
 				src: this.src,
 				dest: this.dest,
 				folder: this.folder,
@@ -333,12 +335,12 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				enrichWith: this.enrichWith,
 				author: author,
-				replacement: self.getReplacements()
+				replacement: _this.getReplacements()
 			});
 		});
 
-		self._console('log', '-----------------------------');
-		self._console('log', '');
+		_this._console('log', '-----------------------------');
+		_this._console('log', '');
 
 		return this;
 
@@ -354,20 +356,20 @@ ModuleGenerator.prototype = {
 	 */
 	writeTemplate: function (module, template, author) {
 
-		var self = this,
-			filesTemplate = self.taskFiles.template;
+		var _this = this,
+			filesTemplate = _this.taskFiles.template;
 
-		self._console('log', 'writeTemplate');
+		_this._console('log', 'writeTemplate');
 
 		if (typeof(filesTemplate) !== 'object') {
 			return this;
 		}
 
-		self._console('log', 'write template: ' + template.nameU + ' (' + module.nameU + ')');
-		self._console('log', '-----------------------------');
+		_this._console('log', 'write template: ' + template.nameU + ' (' + module.nameU + ')');
+		_this._console('log', '-----------------------------');
 
-		self._for(filesTemplate, function () {
-			self.writeFile({
+		_this._for(filesTemplate, function () {
+			_this.writeFile({
 				src: this.src,
 				dest: this.dest,
 				folder: this.folder,
@@ -375,12 +377,12 @@ ModuleGenerator.prototype = {
 				template: this.template,
 				author: author,
 				enrichWith: this.enrichWith,
-				replacement: self.getReplacements()
+				replacement: _this.getReplacements()
 			});
 		});
 
-		self._console('log', '-----------------------------');
-		self._console('log', '');
+		_this._console('log', '-----------------------------');
+		_this._console('log', '');
 
 		return this;
 	},
@@ -393,9 +395,9 @@ ModuleGenerator.prototype = {
 	 */
 	writeFile: function (options) {
 
-		var self = this,
-			placeholder = self.taskPlaceholder,
-			grunt = self.options.grunt,
+		var _this = this,
+			placeholder = _this.taskPlaceholder,
+			grunt = _this.options.grunt,
 			path = options.dest + '/' + options.template,
 			templatePath = options.src + '/' + options.template,
 			content = '',
@@ -412,7 +414,7 @@ ModuleGenerator.prototype = {
 
 		// replace file path and content
 		content = grunt.file.read(templatePath);
-		self._for(options.replacement, function () {
+		_this._for(options.replacement, function () {
 			pattern = new RegExp(this._that, 'g');
 			path = path.replace(pattern, this._with);
 			content = content.replace(pattern, this._with);
@@ -420,16 +422,16 @@ ModuleGenerator.prototype = {
 
 		// check file exist
 		if (grunt.file.exists(path)) {
-			self._console('log', 'file exist: ' + path);
+			_this._console('log', 'file exist: ' + path);
 			return this;
 		}
 
 		// write file
-		self._console('log', 'write file: ' + path);
+		_this._console('log', 'write file: ' + path);
 		grunt.file.write(path, content);
 
 		// write enrichWith
-		self.enrichWith(options);
+		_this.enrichWith(options);
 
 		return this;
 	},
@@ -444,8 +446,8 @@ ModuleGenerator.prototype = {
 	 */
 	enrichWith: function (options) {
 
-		var self = this,
-			grunt = self.options.grunt,
+		var _this = this,
+			grunt = _this.options.grunt,
 			pathSrc,
 			pathTemplate,
 			outlet,
@@ -461,7 +463,7 @@ ModuleGenerator.prototype = {
 		pathTemplate = options.enrichWith.template;
 		outlet = grunt.file.read(pathTemplate);
 
-		self._for(options.replacement, function () {
+		_this._for(options.replacement, function () {
 			pattern = new RegExp(this._that, 'g');
 			pathSrc = pathSrc.replace(pattern, this._with);
 			outlet = outlet.replace(pattern, this._with);
@@ -475,13 +477,13 @@ ModuleGenerator.prototype = {
 
 		content = grunt.file.read(pathSrc);
 		if (content.search(pattern2) < 0) {
-			self._console('log', 'placeholder (' + options.enrichWith.placeholder + ') not found in file "' + pathSrc + '"');
+			_this._console('log', 'placeholder (' + options.enrichWith.placeholder + ') not found in file "' + pathSrc + '"');
 			return this;
 		}
 		content = content.replace(pattern2, outlet);
 
 		grunt.file.write(pathSrc, content);
-		self._console('log', 'change file : ' + pathSrc);
+		_this._console('log', 'change file : ' + pathSrc);
 
 		return this;
 
@@ -525,9 +527,9 @@ ModuleGenerator.prototype = {
 	 */
 	_console: function (type, value) {
 
-		var self = this,
+		var _this = this,
 			log = function (val) {
-				self.options.grunt.log.writeln(val);
+				_this.options.grunt.log.writeln(val);
 			};
 
 		if (type === 'dir') {
@@ -561,15 +563,15 @@ ModuleGenerator.prototype = {
 	 *
 	 * @method _forIn
 	 * @param {Object} obj - object that should be looped
-	 * @param {function} callback returns key value pair
+	 * @param {function} onLoop returns key value pair
 	 * @returns {void}
 	 * @private
 	 */
-	_forIn: function (obj, callback) {
+	_forIn: function (obj, onLoop) {
 		/* eslint-disable */
 		for (var key in obj) {
 			if (obj.hasOwnProperty(key)) {
-				callback.call(this, key, obj[key]);
+				onLoop.call(this, key, obj[key]);
 			}
 		}
 		/* eslint-enable */

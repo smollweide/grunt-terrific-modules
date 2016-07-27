@@ -1,7 +1,7 @@
 {
 	"name": "grunt-terrific-modules",
 	"description": "A grunt module generator for terrific modules",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"homepage": "https://github.com/smollweide/grunt-terrific-modules",
 	"author": {
 		"name": "Jan Widmer, Simon Mollweide",
@@ -25,7 +25,7 @@
 		"start": "npm run test"
 	},
 	"devDependencies": {
-		"@namics/eslint-config": "^0.2.0"
+		"@namics/eslint-config": "^1.0.0"
 	},
 	"dependencies": {
 		"grunt": "^1.0.1",

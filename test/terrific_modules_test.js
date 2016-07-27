@@ -83,12 +83,12 @@ var getClass = function () {
 	return ModuleGenerator.getClass();
 };
 
-var _for = function (array, callback) {
+var _for = function (array, onLoop) {
 	var i = 0,
 		len = array.length;
 
 	for (i; i < len; i += 1) {
-		callback.call(array[i], i);
+		onLoop.call(array[i], i);
 	}
 };
 
