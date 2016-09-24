@@ -1,7 +1,7 @@
 {
 	"name": "grunt-terrific-modules",
 	"description": "A grunt module generator for terrific modules",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"homepage": "https://github.com/smollweide/grunt-terrific-modules",
 	"author": {
 		"name": "Jan Widmer, Simon Mollweide",
@@ -34,7 +34,7 @@
 		"grunt-contrib-nodeunit": "^1.0.0"
 	},
 	"peerDependencies": {
-		"grunt": ">=1.0.0"
+		"grunt": ">=0.4.0"
 	},
 	"keywords": [
 		"grunt",

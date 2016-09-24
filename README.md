@@ -184,7 +184,7 @@ All files defined in this array need to exist in the resource directory.
 
 
 ## Changelog
-Please see the [CHANGELOG.md](https://github.com/smollweide/grunt-terrific-modules/blob/master/CHANGELOG.md)
+Please see the [releases](https://github.com/smollweide/grunt-terrific-modules/releases)
 
 
 
